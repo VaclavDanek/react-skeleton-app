@@ -1,0 +1,73 @@
+{
+  "alerts": {
+    "authExpire": "Došlo k automatickému odhlášení.",
+    "onGlobalError": "Došlo k chybě, pokud je závažného charakteru a bude přetrvávat, kontaktujte prosím podporu.",
+    "update": "Došlo k aktualizaci aplikace."
+  },
+  "api": {
+    "errors": {
+      "ERROR_CHANGE_PASSWORD": "Změna hesla se nezdařila.",
+      "ERROR_INCORRECT_PASSWORD": "Nesprávné heslo.",
+      "ERROR_SEND_EMAIL_NO_RESPONSE": "E-mail se pravděpodobně nepodařilo odeslat.",
+      "ERROR_SEND_EMAIL_FAILED": "E-mail se bohužel nepodařilo odeslat."
+    },
+    "response": {
+      "SEND_EMAIL_SUCCESS": "E-mail byl úspěsně odeslán."
+    }
+  },
+  "components": {
+    "dayPicker": {
+      "months": [
+        "Leden",
+      	"Únor",
+      	"Březen",
+      	"Duben",
+      	"Květen",
+      	"Červen",
+      	"Červenec",
+      	"Srpen",
+      	"Září",
+      	"Říjen",
+      	"Listopad",
+      	"Prosinec"
+      ],
+      "days": [
+        "Pondělí",
+      	"Úterý",
+      	"Středa",
+      	"Čtvrtek",
+      	"Pátek",
+      	"Sobota",
+      	"Neděle"
+      ],
+      "daysShort": [
+        "Po",
+        "Út",
+        "St",
+        "Čt",
+        "Pá",
+        "So",
+        "Ne"
+      ]
+    }
+  },
+  "errors": {
+    "login": {
+      "401": "Neplatné přihlašovací údaje!",
+      "500": "Příhlášení se nezdařilo.",
+      "503": "Příhlášení se nezdařilo."
+    }
+  },
+  "general": {
+    "labels": {
+      "close": "Zavřít",
+      "yes": "Ano",
+      "no": "Ne",
+      "reloadNewVersion": "Načíst novou verzi",
+      "warning": "Upozornění"
+    },
+    "options": {
+      "fullScreen": "Zobrazit aplikaci přes celou obrazovku?"
+    }
+  }
+}
