@@ -75,11 +75,15 @@ export default class Form extends React.Component<FormProps, FormState> {
       'border-danger': hasErrors,
     })
 
-    const fields = React.Children.map(children, (child, index) =>
-      React.cloneElement(child, {
-        ref: `field-${index}`
-      })
-    )
+    const fields = React.Children.map(children, (child, index) => {
+      const { type } = child
+      if (type && type.displayName === 'Field') {
+        child = React.cloneElement(child, {
+          ref: `field-${index}`
+        })
+      }
+      return child
+    })
 
     return (
       <form
