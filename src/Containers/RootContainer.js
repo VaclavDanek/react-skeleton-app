@@ -61,6 +61,7 @@ type RootState = {
   modals: { [key: string]: boolean },
 }
 
+
 class RootScreen extends React.Component<RootProps, RootState> {
 
   static getDerivedStateFromProps = (nextProps: RootProps, prevState: RootState): RootState | null => {
@@ -71,9 +72,14 @@ class RootScreen extends React.Component<RootProps, RootState> {
     return null
   }
 
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true }
+  }
+
   constructor(props) {
     super(props)
     this.state = {
+      hasError: false,
       modals: {
         authExpireAlert: false,
         updateAlert: false,
@@ -133,9 +139,10 @@ class RootScreen extends React.Component<RootProps, RootState> {
   }
 
   handleToggleModal = (key: string, show?: boolean = null): void => {
-    this.setState((prevState) => ({
-      modals: { ...prevState.modals, [key]: show !== null ? show : !prevState.modals[key] },
-    }))
+    this.setState((prevState) => {
+      prevState.modals[key] = show !== null ? show : !prevState.modals[key]
+      return ({ modals: prevState.modals })
+    })
   }
 
   handleScrollToElement = (component: HTMLElement | string): void => {
@@ -152,7 +159,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
   }
 
   render() {
-    const { handleOnCloseAlert, handleOnReload, handleOnScrollToElement, handleToggleModal } = this
+    const { handleOnCloseAlert, handleOnReload, handleScrollToElement, handleToggleModal } = this
     const { addAlert } = this.props
 
     const { alerts, fetching, redirectUrl } = this.props
@@ -164,11 +171,11 @@ class RootScreen extends React.Component<RootProps, RootState> {
           <Route
             exact
             path='/'
-            render={(props) => (
+            render={(props: RootProps) => (
               <HomeContainer
                 {...props}
                 isMobile={isMobile}
-                scrollToElement={handleOnScrollToElement}
+                scrollToElement={handleScrollToElement}
               />
             )}
           />

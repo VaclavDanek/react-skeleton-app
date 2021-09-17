@@ -1,1 +1,1 @@
-# React skeleton app, based on "DevX empty project".
+# React skeleton app, loosely based on "DevX empty project".

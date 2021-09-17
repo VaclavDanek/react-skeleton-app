@@ -1,10 +1,9 @@
-'use strict'
-var webpack = require('webpack')
-var path = require('path')
-var loaders = require('./webpack.loaders')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var DashboardPlugin = require('webpack-dashboard/plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+const webpack = require('webpack')
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const DashboardPlugin = require('webpack-dashboard/plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const loaders = require('./webpack.loaders')
 
 const HOST = process.env.HOST || '0.0.0.0'
 const PORT = process.env.PORT || '3000'

@@ -52,6 +52,24 @@
     }
   },
   "errors": {
+    "validation": {
+      "input": {
+        "isRequired": "Toto pole je povinné.",
+        "isEmail": "Neplatný formát.",
+        "isPhone": "Neplatný formát.",
+        "isPSC": "Neplatný formát.",
+        "isICO": "Neplatný formát.",
+        "isRC": "Neplatný formát.",
+        "isAlphabetic": "Toto pole může obsahovat pouze písmena.",
+        "isAlphanumeric": "Toto pole může obsahovat pouze číslice a písmena.",
+        "isNumber": "Toto pole může obsahovat pouze číslice.",
+        "hasMinNumber": "Minimální hodnota je {validationParam}.",
+        "hasMaxNumber": "Maximální hodnota je {validationParam}.",
+        "hasMinLength": "Text musí mít minimálně {validationParam} znaky.",
+        "hasMaxLength": "Text může mít maximálně jen {validationParam} znaků.",
+        "matches": "Neplatný formát."
+      }
+    },
     "login": {
       "401": "Neplatné přihlašovací údaje!",
       "500": "Příhlášení se nezdařilo.",

@@ -1,10 +1,10 @@
-var webpack = require('webpack')
-var path = require('path')
-var loaders = require('./webpack.loaders')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var WebpackCleanupPlugin = require('webpack-cleanup-plugin')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const webpack = require('webpack')
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const loaders = require('./webpack.loaders')
 
 loaders.push({
   test: /\.scss$/,

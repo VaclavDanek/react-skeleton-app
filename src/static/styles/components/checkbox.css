@@ -3,7 +3,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
-/* 
+/*
     Created on : 11.9.2019, 22:30:31
     Author     : Vasek
 */
@@ -43,7 +43,7 @@ LEVEL 1. CORE STYLES
 
 .toggle__label:before, .toggle__label:after{
   content: "";
-  box-sizing: border-box;  
+  box-sizing: border-box;
   width: 1em;
   height: 1em;
   font-size: var(--uiToggleSize);
@@ -56,6 +56,10 @@ LEVEL 1. CORE STYLES
 .toggle__label:before{
   border: var(--uiToggleBorderWidth) solid var(--uiToggleColor);
   z-index: 2;
+}
+
+.toggle__input.is-invalid ~ .toggle__label:before{
+  border-color: #dc3545 !important;
 }
 
 .toggle__input:disabled ~ .toggle__label:before{
@@ -125,7 +129,7 @@ LEVEL 2. PRESENTATION STYLES
 =====
 */
 
-/* 
+/*
 The demo skin
 */
 
@@ -133,7 +137,7 @@ The demo skin
   border-radius: 2px;
 }
 
-/* 
+/*
 The animation of switching states
 */
 

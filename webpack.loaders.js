@@ -1,12 +1,24 @@
 module.exports = [
   {
     test: /\.jsx?$/,
-    exclude: /(node_modules|bower_components|public\/)/,
+    exclude: /(node_modules|public\/)/,
     loader: 'babel-loader',
     query: {
       cacheDirectory: true,
-      plugins: ['transform-runtime', 'transform-class-properties', 'transform-object-rest-spread'],
-      presets: ['es2015', 'react', 'stage-2'],
+      presets: [
+        '@babel/preset-env',
+        '@babel/preset-flow',
+        '@babel/preset-react',
+      ],
+      plugins: [
+        '@babel/plugin-syntax-flow',
+        '@babel/plugin-transform-runtime',
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-export-default-from',
+        '@babel/plugin-proposal-object-rest-spread',
+        '@babel/plugin-syntax-dynamic-import',
+        'react-hot-loader/babel',
+      ],
     },
   },
   {
@@ -15,58 +27,44 @@ module.exports = [
     exclude: ['node_modules'],
   },
   {
-    test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-    exclude: /(node_modules|bower_components)/,
-    loader: 'file-loader',
-  },
-  {
-    test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-    exclude: /(node_modules|bower_components)/,
-    loader: 'url-loader?prefix=font/&limit=5000',
-  },
-  {
-    test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-    exclude: /(node_modules|bower_components)/,
-    loader: 'url-loader?limit=10000&mimetype=application/octet-stream',
-  },
-  {
-    test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-    exclude: /(node_modules|bower_components)/,
-    loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
-  },
-  {
-    test: /fontawesome-webfont\.eot(\?v=\d+\.\d+\.\d+)?$/,
-    exclude: /(bower_components)/,
-    loader: 'file-loader',
-  },
-  {
-    test: /fontawesome-webfont\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-    exclude: /(bower_components)/,
-    loader: 'url-loader?prefix=font/&limit=5000',
-  },
-  {
-    test: /fontawesome-webfont\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-    exclude: /(bower_components)/,
-    loader: 'url-loader?limit=10000&mimetype=application/octet-stream',
-  },
-  {
-    test: /fontawesome-webfont\.svg(\?v=\d+\.\d+\.\d+)?$/,
-    exclude: /(bower_components)/,
-    loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
-  },
-  {
     test: /\.gif/,
-    exclude: /(node_modules|bower_components)/,
+    exclude: ['node_modules'],
     loader: 'url-loader?limit=10000&mimetype=image/gif',
   },
   {
     test: /\.jpg/,
-    exclude: /(node_modules|bower_components)/,
+    exclude: ['node_modules'],
     loader: 'url-loader?limit=10000&mimetype=image/jpg',
+    // loader: 'file-loader',
   },
   {
     test: /\.png/,
-    exclude: /(node_modules|bower_components)/,
+    exclude: ['node_modules'],
     loader: 'url-loader?limit=10000&mimetype=image/png',
+  },
+  {
+    test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+    exclude: ['node_modules'],
+    loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
+  },
+  {
+    test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+    exclude: ['node_modules'],
+    loader: 'url-loader?limit=10000&mimetype=application/octet-stream',
+  },
+  {
+    test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+    exclude: ['node_modules'],
+    loader: 'file-loader',
+  },
+  {
+    test: /^(?!.*fontawesome-webfont).*\.woff2?(\?v=\d+\.\d+\.\d+)?$/,
+    exclude: ['node_modules'],
+    loader: 'url-loader?limit=10000&mimetype=application/font-woff',
+  },
+  {
+    test: /fontawesome-webfont\.woff2?(\?v=\d+\.\d+\.\d+)?/,
+    exclude: ['node_modules'],
+    loader: "url-loader?prefix=font/&limit=5000"
   },
 ]
