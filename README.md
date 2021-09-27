@@ -1,7 +1,7 @@
 # Info
-React skeleton app, loosely based on "DevX empty project".
+React skeleton app, loosely based on "DevX empty project". The HomeContainer with a validated form serves as an example of usage.
 
-## Dependencies
+## Main features
 * flow
 * webpack
 * babel
@@ -9,11 +9,17 @@ React skeleton app, loosely based on "DevX empty project".
 * react-redux & reduxsauce with seamless-immutable state
 * react-router-dom
 * axios
+* jest
+* i18n-react
+* reactstrap
 * bootstrap 4
 * font-awesome 4.7
-* and more...
 
 ## Installation and startup
 1. npm install or yarn install
 2. npm start or yarn start
-3. app is running at [http://localhost:3000](http://localhost:3000/)
+3. visit [http://localhost:3000](http://localhost:3000/)
+
+## Build
+1. npm build or yarn build
+2. go to "public" folder, located in the root directory
