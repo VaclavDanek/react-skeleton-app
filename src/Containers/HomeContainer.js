@@ -6,7 +6,7 @@ import classNames from 'classnames'
 
 // components
 import Form from '../Components/Form'
-import Field from '../Components/Form/Field.jsx'
+import Field, { createField } from '../Components/Form/Field.jsx'
 import Checkbox from '../Components/Form/Checkbox.jsx'
 import Switch from '../Components/Form/Switch.jsx'
 
@@ -40,6 +40,19 @@ type HomeState = {
     errors: { [key: string]: string },
   }
 }
+
+// HOC fields
+const FieldTestSelect = createField('select', {
+  children: [
+    <option key='testSelect-novalue' value='' />,
+    <option key='testSelect-value-1' value='*,.-()'>*,.-()</option>,
+    <option key='testSelect-value-2' value='value1'>value1</option>,
+    <option key='testSelect-value-3' value='value2'>value2</option>,
+  ]
+})
+const FieldTestText = createField('textarea', { cols: '50', rows: '5' })
+const FieldTestCheckbox = createField(Checkbox, { label: 'testCheckbox' })
+const FieldTestSwitch = createField(Switch)
 
 class HomeScreen extends React.Component<HomeProps, HomeState> {
   state = {
@@ -143,7 +156,7 @@ class HomeScreen extends React.Component<HomeProps, HomeState> {
               type='number'
               value={testNumber}
             />
-            <Field
+            <FieldTestSelect
               errors={errors.testSelect}
               id='testSelect'
               isAlphanumeric
@@ -154,15 +167,8 @@ class HomeScreen extends React.Component<HomeProps, HomeState> {
               required
               tooltip={{ text: 'testSelect tooltip' }}
               value={testSelect}
-            >
-              <select>
-                <option value='' />
-                <option value='*,.-()'>*,.-()</option>
-                <option value='value1'>value1</option>
-                <option value='value2'>value2</option>
-              </select>
-            </Field>
-            <Field
+            />
+            <FieldTestText
               errors={errors.testText}
               id='testText'
               label='testText'
@@ -171,8 +177,8 @@ class HomeScreen extends React.Component<HomeProps, HomeState> {
               onChange={this.handleOnInputChange}
               tooltip={{ text: 'testText tooltip' }}
               value={testText}
-            ><textarea cols='50' rows='5' /></Field>
-            <Field
+            />
+            <FieldTestCheckbox
               id='testCheckbox'
               info='This checkbox field uses, for demonstrating, against the other fields above, its own state for storing errors.'
               inputClasses='toggle__input'
@@ -181,8 +187,8 @@ class HomeScreen extends React.Component<HomeProps, HomeState> {
               required
               tooltip={{ text: 'testCheckbox tooltip' }}
               value={testCheckbox}
-            ><Checkbox label='testCheckbox' /></Field>
-            <Field
+            />
+            <FieldTestSwitch
               id='testSwitch'
               info='This switch is the only input here, that is not validated at all.'
               inputClasses='onoffswitch-checkbox'
@@ -191,7 +197,7 @@ class HomeScreen extends React.Component<HomeProps, HomeState> {
               onChange={this.handleOnInputChange}
               tooltip={{ text: 'testSwitch tooltip' }}
               value={testSwitch}
-            ><Switch /></Field>
+            />
           </Form>
         </div>
       </div>

@@ -1,4 +1,6 @@
 // @flow
+/* eslint-disable max-classes-per-file */
+
 import React from 'react'
 import I18n from 'i18n-react'
 import ReactTooltip from 'react-tooltip'
@@ -109,7 +111,7 @@ export default class Field extends React.Component<FieldProps, FieldState> {
   }
 
   render() {
-    const { children, id, info, inputClasses, label, required, tooltip, wrapperClasses } = this.props
+    const { id, info, inputClasses, label, required, tooltip, wrapperClasses } = this.props
     const errors = this.props.errors || this.state.errors
 
     const inputProps = {
@@ -128,20 +130,6 @@ export default class Field extends React.Component<FieldProps, FieldState> {
       }
     })
 
-    let customComponent = null
-    if (children) {
-      const childElement = React.Children.only(children)
-      if (React.isValidElement(childElement)) {
-        customComponent = React.cloneElement(childElement, {
-          ...inputProps,
-          onBlur: this.handleOnBlur,
-          onFocus: this.handleOnFocus,
-          onChange: this.handleOnChange,
-          ...childElement.props,
-        })
-      }
-    }
-
     return [
       <div key={`field-${id}`} className={wrapperClasses}>
         <div className='position-relative'>
@@ -150,14 +138,12 @@ export default class Field extends React.Component<FieldProps, FieldState> {
               {label}{required && <span className='text-danger'> *</span>}
             </label>
           )}
-          {customComponent || (
-            <input
-              {...inputProps}
-              onBlur={this.handleOnBlur}
-              onFocus={this.handleOnFocus}
-              onChange={this.handleOnChange}
-            />
-          )}
+          <input
+            {...inputProps}
+            onBlur={this.handleOnBlur}
+            onFocus={this.handleOnFocus}
+            onChange={this.handleOnChange}
+          />
           {tooltip && (
             <ReactTooltip effect='solid' id={`${id}-tooltip`} place={tooltip.align || 'bottom'} type={tooltip.type || 'info'}>
               <span>{tooltip.text}</span>
@@ -182,3 +168,64 @@ export default class Field extends React.Component<FieldProps, FieldState> {
     ]
   }
 }
+
+export const createField = (Component, componentProps = {}) => (
+  class extends Field<FieldProps, FieldState> {
+
+    render() {
+      const { id, info, inputClasses, label, required, tooltip, wrapperClasses } = this.props
+      const errors = this.props.errors || this.state.errors
+
+      componentProps.className = classNames({
+        [inputClasses]: true,
+        'is-invalid': errors.length > 0,
+      })
+      if (tooltip) {
+        componentProps['data-tip'] = ''
+        componentProps['data-for'] = `${id}-tooltip`
+      }
+      Object.keys(this.props).forEach(key => {
+        if (!propsFilter.includes(key)) {
+          componentProps[key] = this.props[key]
+        }
+      })
+
+      return [
+        <div key={`field-${id}`} className={wrapperClasses}>
+          <div className='position-relative'>
+            {label && (
+              <label htmlFor={id}>
+                {label}{required && <span className='text-danger'> *</span>}
+              </label>
+            )}
+            <Component
+              {...componentProps}
+              onBlur={this.handleOnBlur}
+              onFocus={this.handleOnFocus}
+              onChange={this.handleOnChange}
+            />
+            {tooltip && (
+              <ReactTooltip effect='solid' id={`${id}-tooltip`} place={tooltip.align || 'bottom'} type={tooltip.type || 'info'}>
+                <span>{tooltip.text}</span>
+              </ReactTooltip>
+            )}
+            <div className='invalid-feedback feedback-icon'>
+              <i className='fa fa-times' />
+            </div>
+          </div>
+        </div>,
+        errors.map((error, index) =>
+          // eslint-disable-next-line react/no-array-index-key
+          <div key={`field-${id}-error-${index}`} className='alert alert-danger' id={`${id}.errors`} role='alert'>
+            <i className='fa fa-exclamation mr-3' />{error}
+          </div>
+        ),
+        info && (
+          <div key={`field-${id}-info`} className='alert alert-info' role='alert'>
+            <i className='fa fa-info mr-3' />{info}
+          </div>
+        ),
+      ]
+    }
+  }
+)
