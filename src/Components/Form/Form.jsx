@@ -20,12 +20,12 @@ type FormProps = {
 }
 
 type FormState = {
-  errors: Array<string>,
+  hasErrors: boolean,
 }
 
 export default class Form extends React.Component<FormProps, FormState> {
 
-  fieldRefs = []
+  fieldRefs: Array<React.ElementRef<Field>> = []
 
   static defaultProps = {
     autocomplete: 'on',
