@@ -49,7 +49,7 @@ export default class Field extends React.Component<FieldProps, FieldState> {
     errors: [],
   }
 
-  handleOnChange = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  handleOnChange = (event: SyntheticInputEvent<HTMLInputElement>): void => {
     const { disabled, readOnly } = this.props
     if (disabled || readOnly) {
       return
@@ -68,15 +68,15 @@ export default class Field extends React.Component<FieldProps, FieldState> {
     }
   }
 
-  handleOnBlur = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  handleOnBlur = (event: SyntheticInputEvent<HTMLInputElement>): void => {
     this.validate(this.props.value)
   }
 
-  handleOnFocus = (event: SyntheticInputEvent<HTMLInputElement>) => {
+  handleOnFocus = (event: SyntheticInputEvent<HTMLInputElement>): void => {
     this.handleErrors([], event.target.name)
   }
 
-  handleErrors = (errors: Array<string>, fieldName: string = this.props.name) => {
+  handleErrors = (errors: Array<string>, fieldName: string = this.props.name): void => {
     const { onError } = this.props
     if (onError) {
       onError(errors, fieldName)

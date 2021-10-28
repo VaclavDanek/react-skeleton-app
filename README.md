@@ -1,5 +1,5 @@
 # Info
-React skeleton app, loosely based on "DevX empty project". The HomeContainer with a validated form serves as an example of usage.
+React skeleton app, loosely based on "DevX empty project". The HomeContainer, with a validated form inside, serves just as an example of usage.
 
 ## Main features
 * flow
@@ -23,3 +23,6 @@ React skeleton app, loosely based on "DevX empty project". The HomeContainer wit
 ## Build
 1. npm build or yarn build
 2. go to "public" folder, located in the root directory
+
+## Demo
+[https://eass.cz/react-skeleton/](https://eass.cz/react-skeleton/)

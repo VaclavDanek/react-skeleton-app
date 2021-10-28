@@ -27,7 +27,7 @@ import type {
 
 // custom variables & functions
 import { setAuth, setHeader } from '../Services/Api'
-import { basename, ignoredErrorEventMessages } from '../config'
+import * as config from '../config'
 
 // translations
 import csLanguage from '../Translations/cs.json'
@@ -115,7 +115,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
   handleOnError = (errorEvent: ErrorEvent | CustomErrorEvent): void => {
     const { addAlert, onActionFailure, onStopFetching } = this.props
     if (errorEvent) {
-      if (!ignoredErrorEventMessages.includes(errorEvent.message)) {
+      if (!config.ignoredErrorEventMessages.includes(errorEvent.message)) {
         onStopFetching()
         onActionFailure(errorEvent)
         addAlert({ message: I18n.translate('alerts.onGlobalError'), type: 'danger' })
@@ -167,7 +167,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
 
     return [
       <div key='app-wrapper' id='body'>
-        <BrowserRouter basename={basename}>
+        <BrowserRouter basename={config.basename}>
           <Route
             exact
             path='/'
