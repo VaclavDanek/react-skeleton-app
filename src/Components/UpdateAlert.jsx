@@ -11,7 +11,7 @@ type UpdateAlertProps = {
   onClose: () => void,
 }
 
-const UpdateAlert = (props: UpdateAlertProps) => {
+const UpdateAlert = (props: UpdateAlertProps): React.Node => {
   const handleOnClose = (): void => {
     props.onClose()
   }

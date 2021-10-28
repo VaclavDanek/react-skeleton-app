@@ -11,7 +11,10 @@ import * as validator from '../../Utils/Validations'
 import '../../static/styles/components/field.css'
 
 // types
-import type { Tooltip as TooltipType } from '../../Types/ValuesType'
+import type {
+  ValueObject,
+  Tooltip as TooltipType,
+} from '../../Types/ValuesType'
 
 type FieldProps = {
   disabled?: boolean,
@@ -169,7 +172,7 @@ export default class Field extends React.Component<FieldProps, FieldState> {
   }
 }
 
-export const createField = (Component, componentProps = {}) => (
+export const createField = (Component: React.ComponentType | string, componentProps?: ValueObject = {}): Field => (
   class extends Field<FieldProps, FieldState> {
 
     render() {

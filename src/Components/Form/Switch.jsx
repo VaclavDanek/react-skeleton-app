@@ -23,7 +23,7 @@ type SwitchProps = {
   wrapperClasses?: string,
 }
 
-const Switch = (props: SwitchProps) => {
+const Switch = (props: SwitchProps): React.Node => {
   const handleOnClick = (event: SyntheticEvent<HTMLLabelElement>): void => {
     if (props.onClick) {
       props.onClick()
