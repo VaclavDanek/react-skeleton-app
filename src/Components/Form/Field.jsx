@@ -113,7 +113,7 @@ export default class Field extends React.Component<FieldProps, FieldState> {
     return errors
   }
 
-  render() {
+  render(): Array<React.Node> {
     const { id, info, inputClasses, label, required, tooltip, wrapperClasses } = this.props
     const errors = this.props.errors || this.state.errors
 
