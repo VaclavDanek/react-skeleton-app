@@ -42,7 +42,7 @@ type HomeState = {
 }
 
 // HOC fields
-const FieldTestSelect = createField('select', {
+const FieldTestSelect: Field = createField('select', {
   children: [
     <option key='testSelect-novalue' value='' />,
     <option key='testSelect-value-1' value='*,.-()'>*,.-()</option>,
@@ -50,9 +50,9 @@ const FieldTestSelect = createField('select', {
     <option key='testSelect-value-3' value='value2'>value2</option>,
   ]
 })
-const FieldTestText = createField('textarea', { cols: '50', rows: '5' })
-const FieldTestCheckbox = createField(Checkbox, { label: 'testCheckbox' })
-const FieldTestSwitch = createField(Switch)
+const FieldTestText: Field = createField('textarea', { cols: '50', rows: '5' })
+const FieldTestCheckbox: Field = createField(Checkbox, { label: 'testCheckbox' })
+const FieldTestSwitch: Field = createField(Switch)
 
 class HomeScreen extends React.Component<HomeProps, HomeState> {
   state = {
