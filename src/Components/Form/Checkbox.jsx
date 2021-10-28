@@ -25,7 +25,7 @@ type CheckboxProps = {
   wrapperClasses?: string,
 }
 
-const Checkbox = (props: CheckboxProps) => {
+const Checkbox = (props: CheckboxProps): React.Node => {
   const handleOnClick = (event: SyntheticEvent<HTMLSpanElement>): void => {
     if (props.onClick) {
       props.onClick()

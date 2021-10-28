@@ -11,7 +11,7 @@ type AuthExpireAlertProps = {
   onClose: () => void,
 }
 
-const AuthExpireAlert = (props: AuthExpireAlertProps) => {
+const AuthExpireAlert = (props: AuthExpireAlertProps): React.Node => {
   const handleOnClose = (): void => {
     props.onClose()
   }
