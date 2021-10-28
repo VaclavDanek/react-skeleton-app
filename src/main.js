@@ -1,10 +1,10 @@
 import React from 'react'
 import { render as ReactRender } from 'react-dom'
 
-const __DEV__ = true
-
 import createStore from './store/createStore'
 import AppContainer from './Containers/AppContainer'
+
+const __DEV__ = true
 
 // ========================================================
 // Store Instantiation

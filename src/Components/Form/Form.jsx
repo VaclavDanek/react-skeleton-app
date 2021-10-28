@@ -3,6 +3,9 @@ import React from 'react'
 import I18n from 'i18n-react'
 import classNames from 'classnames'
 
+// components
+import Field from './Field'
+
 type FormProps = {
   autoComplete?: boolean,
   children?: React.Children,
@@ -22,6 +25,8 @@ type FormState = {
 
 export default class Form extends React.Component<FormProps, FormState> {
 
+  fieldRefs = []
+
   static defaultProps = {
     autocomplete: 'on',
     className: 'p-3 border',
@@ -32,16 +37,14 @@ export default class Form extends React.Component<FormProps, FormState> {
     hasErrors: false,
   }
 
-  handleOnSubmit = (event: SyntheticEvent<HTMLButtonElement>) => {
+  handleOnSubmit = (event: SyntheticEvent<HTMLButtonElement>): void => {
     event.preventDefault()
 
     // show errors one by one
     /* const { hasErrors, onSubmit } = this.props
     if (!hasErrors) {
-      const fields = Object.keys(this.refs)
-      for (let index = 0; index < fields.length; index++) {
-        const field = fields[index]
-        const { props, validate } = this.refs[field]
+      for (const field of this.fieldRefs) {
+        const { props, validate } = field
         const errors = validate(props.value)
         if (errors.length > 0) {
           this.setState({ hasErrors: true })
@@ -53,8 +56,8 @@ export default class Form extends React.Component<FormProps, FormState> {
 
     // show all errors immediately
     let hasErrors = false
-    Object.keys(this.refs).forEach(field => {
-      const { props, validate } = this.refs[field]
+    this.fieldRefs.forEach(field => {
+      const { props, validate } = field
       const errors = validate(props.value)
       if (!hasErrors && errors.length > 0) {
         hasErrors = true
@@ -77,9 +80,9 @@ export default class Form extends React.Component<FormProps, FormState> {
 
     const fields = React.Children.map(children, (child, index) => {
       const { type } = child
-      if (type && type.displayName === 'Field') {
+      if (type === (<Field />).type) {
         child = React.cloneElement(child, {
-          ref: `field-${index}`
+          ref: (ref) => { this.fieldRefs[index] = ref }
         })
       }
       return child
