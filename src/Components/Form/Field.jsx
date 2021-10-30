@@ -175,7 +175,7 @@ export default class Field extends React.Component<FieldProps, FieldState> {
 export const createField = (Component: React.ComponentType | string, componentProps?: ValueObject = {}): Field => (
   class extends Field<FieldProps, FieldState> {
 
-    render() {
+    render(): Array<React.Node> {
       const { id, info, inputClasses, label, required, tooltip, wrapperClasses } = this.props
       const errors = this.props.errors || this.state.errors
 
