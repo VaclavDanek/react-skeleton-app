@@ -50,11 +50,6 @@ const Checkbox = (props: CheckboxProps): React.Node => {
   const { className, disabled, inputClasses, label, readOnly, required, value, wrapperClasses } = props
   const id = props.id || 'toggle'
   const name = props.name || 'toggle'
-  const element = (
-    <span className='toggle__label' data-for={props['data-for']} data-tip={props['data-tip']} onClick={handleOnClick}>
-      <span className='toggle__text'>{label}{required && <span className='text-danger'> *</span>}</span>
-    </span>
-  )
   return (
     <div className={wrapperClasses}>
       <label className='toggle mb-0' htmlFor={id}>
@@ -73,7 +68,9 @@ const Checkbox = (props: CheckboxProps): React.Node => {
           type='checkbox'
         />
         <input name={`_${name}`} type='hidden' value='on' />
-        {element}
+        <span className='toggle__label' data-for={props['data-for']} data-tip={props['data-tip']} onClick={handleOnClick}>
+          <span className='toggle__text'>{label}{required && <span className='text-danger'> *</span>}</span>
+        </span>
       </label>
     </div>
   )

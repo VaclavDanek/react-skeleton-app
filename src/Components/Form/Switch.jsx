@@ -48,12 +48,6 @@ const Switch = (props: SwitchProps): React.Node => {
   const { className, disabled, inputClasses, readOnly, value, wrapperClasses } = props
   const id = props.id || 'onoffswitch'
   const name = props.name || 'onoffswitch'
-  const element = (
-    <label className='onoffswitch-label' data-for={props['data-for']} data-tip={props['data-tip']} htmlFor={id} onClick={handleOnClick}>
-      <span className='onoffswitch-inner' />
-      <span className='onoffswitch-switch' />
-    </label>
-  )
   return (
     <div className={wrapperClasses || 'onoffswitch'}>
       <input
@@ -69,7 +63,10 @@ const Switch = (props: SwitchProps): React.Node => {
         readOnly={readOnly}
         type='checkbox'
       />
-      {element}
+      <label className='onoffswitch-label' data-for={props['data-for']} data-tip={props['data-tip']} htmlFor={id} onClick={handleOnClick}>
+        <span className='onoffswitch-inner' />
+        <span className='onoffswitch-switch' />
+      </label>
     </div>
   )
 }

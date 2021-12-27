@@ -97,8 +97,6 @@ class HomeScreen extends React.Component<HomeProps, HomeState> {
           >
             <Field
               errors={errors.testString}
-              hasMaxLength={8}
-              hasMinLength={4}
               id='testString'
               isAlphabetic
               label='testString'
@@ -127,8 +125,6 @@ class HomeScreen extends React.Component<HomeProps, HomeState> {
             />
             <Field
               errors={errors.testNumber}
-              hasMaxNumber={100}
-              hasMinNumber={1}
               id='testNumber'
               isNumber
               label='testNumber'

@@ -2,21 +2,21 @@
 
 export const matches = (value: any, regex: string): boolean => new RegExp(regex).test(value)
 
+export const minLength = (value: string | number, length: number): boolean =>
+  new RegExp(`^.{${length},}$`).test(value)
+
+export const maxLength = (value: string | number, length: number): boolean =>
+  new RegExp(`^.{0,${length}}$`).test(value)
+
+export const min = (value: number, minNumber: number): boolean => value >= minNumber
+
+export const max = (value: number, maxNumber: number): boolean => value <= maxNumber
+
 export const isNumber = (value: any): boolean => Number.isFinite(value)
-
-export const hasMinNumber = (value: number, minNumber: number): boolean => value >= minNumber
-
-export const hasMaxNumber = (value: number, maxNumber: number): boolean => value <= maxNumber
 
 export const isAlphabetic = (value: string | number): boolean => /^[a-zA-Z]+$/.test(value)
 
 export const isAlphanumeric = (value: string | number): boolean => /^[a-zA-Z0-9]+$/.test(value)
-
-export const hasMinLength = (value: string, minLength: number): boolean =>
-  new RegExp(`^.{${minLength},}$`).test(value)
-
-export const hasMaxLength = (value: string, maxLength: number): boolean =>
-  new RegExp(`^.{0,${maxLength}}$`).test(value)
 
 export const isEmail = (value: string): boolean =>
   // eslint-disable-next-line
@@ -31,21 +31,7 @@ export const isPhone = (value: string, withPrefix?: boolean = false): boolean =>
 
 export const isPSC = (value: string): boolean => /^\d{3}\s?\d{2}$/.test(value)
 
-export const isICO = (value: string) => {
-  const match = /^\d{8}$/.exec(value)
-  if (!match)
-    return false
-
-  let control = 0
-  for (let index = 0; index < 7; index++) {
-    control += Number(match[0][index]) * (8 - index)
-  }
-
-  const mod = control % 11
-  return ((11 - mod) % 10) === Number(match[0][7])
-}
-
-export const isRC = (value: string): boolean => {
+export const isRC = (value: string | number): boolean => {
   const match = /^(\d{2})(\d{2})(\d{2})\/?(\d{3})(\d?)$/.exec(value)
   if (!match)
     return false
@@ -78,10 +64,28 @@ export const isRC = (value: string): boolean => {
   return (month > 0 && month <= 12 && day > 0 && day <= (new Date(year, month, 0)).getDate())
 }
 
-export const checkRCWithMonth = (rc: string, month: number | string): boolean => {
-  const match = /^\d{2}(\d{2})\d{2}\/?\d{3}\d?$/.exec(rc)
+export const isICO = (value: string | number): boolean => {
+  const match = /^\d{8}$/.exec(value)
   if (!match)
     return false
 
-  return Number(month) === Number(match[1])
+  let control = 0
+  for (let index = 0; index < 7; index++) {
+    control += Number(match[0][index]) * (8 - index)
+  }
+
+  const mod = control % 11
+  return ((11 - mod) % 10) === Number(match[0][7])
+}
+
+export const isDIC = (value: string) => {
+  const match = /^([A-Z]{2})(\d{8,10})$/.exec(value);
+  if (!match)
+    return false;
+
+  if (match[1] === 'CZ') {
+    const number = match[2];
+    return number.length === 8 ? isICO(number) : isRC(number);
+  }
+  return true;
 }
