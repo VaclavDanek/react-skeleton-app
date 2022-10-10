@@ -1,4 +1,5 @@
 // @flow
+
 export type Values = {
   [name: string]: string | number,
 }

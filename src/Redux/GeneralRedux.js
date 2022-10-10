@@ -1,5 +1,4 @@
 // @flow
-// external libs
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import moment from 'moment'

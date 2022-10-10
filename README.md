@@ -1,5 +1,5 @@
 # Info
-React skeleton app, loosely based on "DevX empty project". The HomeContainer, with a simple form inside, serves just as an example of usage.
+React skeleton app, loosely based on "DevX empty project".
 
 ## Main features
 * flow
@@ -12,6 +12,7 @@ React skeleton app, loosely based on "DevX empty project". The HomeContainer, wi
 * jest
 * i18n-react
 * reactstrap
+* react-loaders
 * bootstrap 4
 * font-awesome 4.7
 

@@ -4,7 +4,14 @@ import { connect } from 'react-redux'
 import { isMobile } from 'react-device-detect'
 import { BrowserRouter, Route, Redirect } from 'react-router-dom'
 import I18n from 'i18n-react'
-import classNames from 'classnames'
+
+// types
+import type { GlobalState } from '../store/reducers'
+import type { Alert } from '../Types/ValuesType'
+import type {
+  Error as CustomError,
+  ErrorEvent as CustomErrorEvent,
+} from '../Types/ErrorTypes'
 
 // containers
 import HomeContainer from './HomeContainer'
@@ -17,18 +24,6 @@ import Modals from '../Components/Modals.jsx'
 import GeneralActions from '../Redux/GeneralRedux'
 import UserDataActions from '../Redux/UserDataRedux'
 
-// types
-import type { GlobalState } from '../store/reducers'
-import type { Alert } from '../Types/ValuesType'
-import type {
-  Error as CustomError,
-  ErrorEvent as CustomErrorEvent,
-} from '../Types/ErrorTypes'
-
-// custom variables & functions
-import { setAuth, setHeader } from '../Services/Api'
-import * as config from '../config'
-
 // translations
 import csLanguage from '../Translations/cs.json'
 // import enLanguage from '../Translations/en.json'
@@ -38,6 +33,9 @@ import 'font-awesome/css/font-awesome.min.css'
 import '../static/styles/bootstrap.min.css'
 import '../static/styles/root.scss'
 import '../static/styles/mobile.scss'
+
+import { setAuth, setHeader } from '../Services/Api'
+import * as config from '../config'
 
 type ParentProps = {}
 
@@ -60,7 +58,6 @@ type RootProps = ParentProps & StateProps & DispatchProps
 type RootState = {
   modals: { [key: string]: boolean },
 }
-
 
 class RootScreen extends React.Component<RootProps, RootState> {
 
@@ -166,7 +163,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
     const { modals } = this.state
 
     return [
-      <div key='app-wrapper' id='body'>
+      <div key='app-wrapper' id='body' style={{ height: '2500px' }}>
         <BrowserRouter basename={config.basename}>
           <Route
             exact
@@ -195,7 +192,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
         onCloseAlert={handleOnCloseAlert}
         onToggleModal={handleToggleModal}
       />,
-      <Loader key='loader' active={fetching > 0} fullScreen />,
+      <Loader key='loader' active={fetching > 0} />,
     ]
   }
 }

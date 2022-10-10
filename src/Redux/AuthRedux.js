@@ -1,5 +1,4 @@
 // @flow
-// external libs
 import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import moment from 'moment'
@@ -52,7 +51,7 @@ export const loginRequestSuccess = (state: AuthState, { authorization }: { autho
     authorization,
     error: INITIAL_STATE.error,
     time: moment().format('DD.MM.YYYY HH:mm:ss'),
-    // expire: (Date.now() + timers.authExpireTimeout),
+    expire: (Date.now() + timers.authExpireTimeout),
   })
 
 export const logout = (state: AuthState): AuthState =>
