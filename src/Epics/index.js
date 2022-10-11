@@ -1,10 +1,5 @@
 // external libs
 import { combineEpics } from 'redux-observable'
-import 'rxjs/add/observable/fromPromise'
-import 'rxjs/add/operator/switchMap'
-import 'rxjs/add/operator/catch'
-import 'rxjs/add/observable/of'
-import 'rxjs/add/observable/from'
 
 // epics
 import GeneralEpic from './GeneralEpic'

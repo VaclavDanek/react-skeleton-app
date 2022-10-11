@@ -28,10 +28,9 @@ export const setAuth = (values) => {
 const endpoints = {
 
   // post
-  /* login: (username, password) => api.post(`login`, null, {
-    auth: { username, password },
+  login: (username, password) => api.post(`login`, { username, password }, {
     timeout: 15000,
-  }) */
+  }),
 
   // put
 

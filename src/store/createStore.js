@@ -15,8 +15,10 @@ export default (initialState = new Immutable({})) => {
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middlewares = [thunk,
-    createEpicMiddleware(rootEpic),
+  const epicMiddleware = createEpicMiddleware()
+  const middlewares = [
+    thunk,
+    epicMiddleware,
     FetchingMiddleware,
     ErrorMiddleware,
   ]
@@ -41,6 +43,8 @@ export default (initialState = new Immutable({})) => {
     compose(applyMiddleware(...middlewares), ...enhancers)
   )
   store.asyncReducers = {}
+
+  epicMiddleware.run(rootEpic)
 
   if (process.env.NODE_ENV !== 'production' && module.hot) {
     module.hot.accept('./reducers', () => {

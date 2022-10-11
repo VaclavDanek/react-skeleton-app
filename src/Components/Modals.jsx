@@ -54,7 +54,7 @@ export default class Modals extends React.Component<ModalsProps, ModalsState> {
 
     return [
       <Modal key='modal-fullScreen' data-key='modal-fullScreen' isOpen={modals.fullScreen} toggle={this.handleOnCloseModal}>
-        <ModalHeader toggle={this.handleOnCloseModal}>
+        <ModalHeader>
           <i aria-hidden='true' className='fa fa-exclamation-triangle fa-2x' /> {I18n.translate('general.labels.warning')}
         </ModalHeader>
         <ModalBody>
@@ -98,7 +98,7 @@ export default class Modals extends React.Component<ModalsProps, ModalsState> {
       alerts.map((alert, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <Modal key={`modal-alert-${index}`} isOpen toggle={() => { this.handleOnCloseAlert(index) }}>
-          <ModalHeader toggle={() => { this.handleOnCloseAlert(index) }}>
+          <ModalHeader>
             <i aria-hidden='true' className='fa fa-exclamation-triangle fa-2x' /> {I18n.translate('general.labels.warning')}
           </ModalHeader>
           <ModalBody>

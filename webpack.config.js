@@ -1,20 +1,30 @@
 const webpack = require('webpack')
 const path = require('path')
+const loaders = require('./webpack.loaders')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const loaders = require('./webpack.loaders')
 
 const HOST = process.env.HOST || '0.0.0.0'
 const PORT = process.env.PORT || '3000'
 
 loaders.push({
-  test: /\.scss$/,
-  loaders: ['style-loader', 'css-loader?importLoaders=1', 'sass-loader'],
-  exclude: ['node_modules'],
+  test: /\.(sa|sc|c)ss$/,
+  use: [
+    'style-loader',
+    {
+      loader: 'css-loader',
+      options: {
+        importLoaders: 1,
+        sourceMap: true,
+      },
+    },
+    'postcss-loader',
+    'sass-loader',
+  ],
 })
 
 module.exports = {
+  mode: 'development',
   entry: [
     'react-hot-loader/patch',
     './src/main.js', // your app's entry point
@@ -29,16 +39,17 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   module: {
-    loaders,
+    rules: loaders,
+  },
+  stats: {
+    children: true,
+    errorDetails: true,
   },
   devServer: {
-    contentBase: './public',
-    // do not print bundle build stats
-    noInfo: true,
+    static: './public',
     // enable HMR
     hot: true,
-    // embed the webpack-dev-server runtime into the bundle
-    inline: true,
+    liveReload: false,
     // serve index.html in place of 404 responses to allow HTML5 history
     historyApiFallback: true,
     port: PORT,
@@ -52,10 +63,6 @@ module.exports = {
         NODE_ENV: '"development"',
       },
     }),
-    new ExtractTextPlugin({
-      filename: 'style.css',
-      allChunks: true,
-    }),
     new DashboardPlugin(),
     new HtmlWebpackPlugin({
       template: './src/template.html',
@@ -65,4 +72,5 @@ module.exports = {
       },
     }),
   ],
+  cache: false,
 }

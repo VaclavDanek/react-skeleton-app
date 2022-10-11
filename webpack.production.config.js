@@ -1,21 +1,32 @@
 const webpack = require('webpack')
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const loaders = require('./webpack.loaders')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin  = require('mini-css-extract-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 loaders.push({
-  test: /\.scss$/,
-  loader: ExtractTextPlugin.extract({
-    fallback: 'style-loader',
-    use: 'css-loader?sourceMap&localIdentName=[local]___[hash:base64:5]!sass-loader?outputStyle=expanded',
-  }),
-  exclude: ['node_modules'],
+  test: /\.(sa|sc|c)ss$/,
+  use: [
+    MiniCssExtractPlugin.loader,
+    {
+      loader: 'css-loader',
+      options: {
+        esModule: true,
+        modules: {
+          namedExport: true,
+          localIdentName: '[local]___[hash:base64:5]',
+        },
+      },
+    },
+    'postcss-loader',
+    'sass-loader',
+  ],
 })
 
 module.exports = {
+  mode: 'production',
   entry: ['./src/main.js'],
   output: {
     publicPath: './',
@@ -26,29 +37,31 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   module: {
-    loaders,
+    rules: loaders,
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          compress: {
+            drop_console: true,
+            drop_debugger: true,
+          },
+          warnings: false,
+          comments : false,
+        },
+      }),
+    ],
   },
   plugins: [
-    new WebpackCleanupPlugin(),
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[chunkhash].css',
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"',
       },
-    }),
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        compress: {
-          warnings: false,
-          // screw_ie8: true,
-          drop_console: true,
-          drop_debugger: true,
-        },
-      },
-    }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new ExtractTextPlugin({
-      filename: 'style.css',
-      allChunks: true,
     }),
     new HtmlWebpackPlugin({
       template: './src/template.html',

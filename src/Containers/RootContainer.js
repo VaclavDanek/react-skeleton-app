@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { isMobile } from 'react-device-detect'
-import { BrowserRouter, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import I18n from 'i18n-react'
 
 // types
@@ -163,8 +163,8 @@ class RootScreen extends React.Component<RootProps, RootState> {
     const { modals } = this.state
 
     return [
-      <div key='app-wrapper' id='body' style={{ height: '2500px' }}>
-        <BrowserRouter basename={config.basename}>
+      <div key='app-wrapper' id='body'>
+        <Switch>
           <Route
             exact
             path='/'
@@ -177,7 +177,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
             )}
           />
           {redirectUrl && <Redirect to={redirectUrl} />}
-        </BrowserRouter>
+        </Switch>
       </div>,
       <Modals
         key='modals'

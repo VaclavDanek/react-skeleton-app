@@ -1,11 +1,15 @@
 // @flow
 import React from 'react'
 import { Provider } from 'react-redux'
-
-import RootContainer from './RootContainer'
+import { BrowserRouter, Route } from 'react-router-dom'
 
 // types
 import type { GlobalState } from '../store/reducers'
+
+// containers
+import RootContainer from './RootContainer'
+
+import { basename } from '../config'
 
 type AppProps = {
   store: GlobalState,
@@ -20,7 +24,9 @@ export default class AppContainer extends React.Component<AppProps> {
     const { store } = this.props
     return (
       <Provider store={store}>
-        <RootContainer />
+        <BrowserRouter basename={basename}>
+          <Route component={RootContainer} path='/' />
+        </BrowserRouter>
       </Provider>
     )
   }

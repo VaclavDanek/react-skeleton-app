@@ -1,5 +1,5 @@
 import React from 'react'
-import { render as ReactRender } from 'react-dom'
+import ReactDOM from 'react-dom/client'
 
 import createStore from './store/createStore'
 import AppContainer from './Containers/AppContainer'
@@ -15,9 +15,15 @@ const store = createStore(initialState)
 // ========================================================
 // Render Setup
 // ========================================================
-const MOUNT_NODE = document.getElementById('app')
+const mountNode = document.getElementById('app')
+const root = ReactDOM.createRoot(mountNode)
 let render = () => {
-  ReactRender(<AppContainer store={store} />, MOUNT_NODE)
+  root.render(
+    <AppContainer store={store} />
+    /* <React.StrictMode>
+      <AppContainer store={store} />
+    </React.StrictMode> */
+  )
 }
 
 // ========================================================
@@ -36,7 +42,11 @@ if (__DEV__) {
     const renderApp = render
     const renderError = (error) => {
       const RedBox = require('redbox-react').default
-      ReactRender(<RedBox error={error} />, MOUNT_NODE)
+      root.render(
+        <React.StrictMode>
+          <RedBox error={error} />
+        </React.StrictMode>
+      )
     }
 
     // Wrap render in try/catch
@@ -51,7 +61,7 @@ if (__DEV__) {
     // Setup hot module replacement
     /* module.hot.accept('./routes/index', () =>
       setImmediate(() => {
-        ReactDOM.unmountComponentAtNode(MOUNT_NODE)
+        ReactDOM.unmountComponentAtNode(mountNode)
         render()
       })
     ) */

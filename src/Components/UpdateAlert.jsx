@@ -19,7 +19,7 @@ const UpdateAlert = (props: UpdateAlertProps): React.Node => {
   const { className, show } = props
   return (
     <Modal className={className} isOpen={show} toggle={handleOnClose}>
-      <ModalHeader toggle={handleOnClose}>
+      <ModalHeader>
         <i aria-hidden='true' className='fa fa-exclamation-triangle fa-2x' /> {I18n.translate('general.labels.warning')}
       </ModalHeader>
       <ModalBody>

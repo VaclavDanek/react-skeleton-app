@@ -12,6 +12,7 @@ import type { ValueObject } from '../Types/ValuesType'
 
 // redux
 import GeneralActions from '../Redux/GeneralRedux'
+import AuthActions from '../Redux/AuthRedux'
 
 type ParentProps = {
   isMobile: boolean,
@@ -43,7 +44,6 @@ const mapStateToProps = (state: GlobalState) => ({
 
 /* eslint-disable import/no-named-as-default-member */
 const mapDispatchToProps = {
-  addAlert: GeneralActions.addAlert,
 }
 /* eslint-enable import/no-named-as-default-member */
 

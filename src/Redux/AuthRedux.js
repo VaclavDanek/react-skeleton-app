@@ -7,8 +7,6 @@ import moment from 'moment'
 import type { ImmutableType } from '../Types/ImmutableTypes'
 import type { ValueObject } from '../Types/ValuesType'
 
-import { timers } from '../config'
-
 /* ------------- Types and Action Creators ------------- */
 
 export type AuthState = ImmutableType & {
@@ -21,7 +19,7 @@ export type AuthState = ImmutableType & {
 const { Types, Creators } = createActions({
   clearError: null,
   loginRequest: ['username', 'password'],
-  loginRequestSuccess: ['authorization'],
+  loginRequestSuccess: ['authorization', 'expire'],
   logout: null,
   setAuthorization: ['authorization'],
   setError: ['error'],
@@ -46,13 +44,15 @@ export const INITIAL_STATE = Immutable({ // eslint-disable-line
 export const clearError = (state: AuthState): AuthState =>
   state.set('error', INITIAL_STATE.error)
 
-export const loginRequestSuccess = (state: AuthState, { authorization }: { authorization: string }): AuthState =>
-  state.merge({
+export const loginRequestSuccess = (state: AuthState, { authorization, expire = 0 }: { authorization: string, expire: number }): AuthState => {
+  console.log(authorization, expire)
+  return state.merge({
     authorization,
     error: INITIAL_STATE.error,
     time: moment().format('DD.MM.YYYY HH:mm:ss'),
-    expire: (Date.now() + timers.authExpireTimeout),
+    expire,
   })
+}
 
 export const logout = (state: AuthState): AuthState =>
   state.merge(INITIAL_STATE)
@@ -64,7 +64,7 @@ export const setError = (state: AuthState, { error }: { error: ValueObject }): A
   state.set('error', error)
 
 export const setExpire = (state: AuthState, { expire = 0 }: { expire?: number }): AuthState =>
-  state.set('expire', Date.now() + expire)
+  state.set('expire', expire)
 
 export const setTime = (state: AuthState, { time }: { time: string }): AuthState =>
   state.set('time', time)
