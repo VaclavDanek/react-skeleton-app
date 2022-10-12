@@ -6,25 +6,6 @@ const MiniCssExtractPlugin  = require('mini-css-extract-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
-loaders.push({
-  test: /\.(sa|sc|c)ss$/,
-  use: [
-    MiniCssExtractPlugin.loader,
-    {
-      loader: 'css-loader',
-      options: {
-        esModule: true,
-        modules: {
-          namedExport: true,
-          localIdentName: '[local]___[hash:base64:5]',
-        },
-      },
-    },
-    'postcss-loader',
-    'sass-loader',
-  ],
-})
-
 module.exports = {
   mode: 'production',
   entry: ['./src/main.js'],
@@ -37,7 +18,37 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   module: {
-    rules: loaders,
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(node_modules|public\/)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+                localIdentName: '[local]___[hash:base64:5]',
+              },
+            },
+          },
+          'postcss-loader',
+          'sass-loader',
+        ],
+      },
+      ...loaders
+    ],
   },
   optimization: {
     minimizer: [

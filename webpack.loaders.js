@@ -2,16 +2,6 @@ const path = require('path')
 
 module.exports = [
   {
-    test: /\.jsx?$/,
-    exclude: /(node_modules|public\/)/,
-    use: {
-      loader: 'babel-loader',
-      options: {
-        presets: ['@babel/preset-env']
-      }
-    },
-  },
-  {
     test: /\.gif/,
     exclude: path.resolve(__dirname, 'node_modules'),
     use: [
@@ -36,9 +26,6 @@ module.exports = [
         }
       }
     ],
-    /* use: {
-      loader: 'file-loader',
-    }, */
   },
   {
     test: /\.png/,
