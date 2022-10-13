@@ -19,9 +19,10 @@ const mountNode = document.getElementById('app')
 const root = ReactDOM.createRoot(mountNode)
 let render = () => {
   root.render(
-    <React.StrictMode>
+    // no strict mode because reactstrap is causing "findDOMNode" warning
+    // <React.StrictMode>
       <AppContainer store={store} />
-    </React.StrictMode>
+    // </React.StrictMode>
   )
 }
 

@@ -5,11 +5,11 @@ import I18n from 'i18n-react'
 // components
 import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
-type UpdateAlertProps = {
+type UpdateAlertProps = {|
   className?: string,
   show: boolean,
   onClose: () => void,
-}
+|}
 
 const UpdateAlert = (props: UpdateAlertProps): React.Node => {
   const handleOnClose = (): void => {

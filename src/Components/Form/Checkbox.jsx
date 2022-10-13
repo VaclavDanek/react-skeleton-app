@@ -6,7 +6,7 @@ import '../../static/styles/components/checkbox.css'
 
 // types
 
-type CheckboxProps = {
+type CheckboxProps = {|
   className?: string,
   'data-for'?: string,
   'data-tip'?: any,
@@ -23,6 +23,11 @@ type CheckboxProps = {
   required?: boolean,
   value: boolean,
   wrapperClasses?: string,
+|}
+
+const defaultProps = {
+  id: 'toggle',
+  name: 'toggle',
 }
 
 const Checkbox = (props: CheckboxProps): React.Node => {
@@ -47,9 +52,7 @@ const Checkbox = (props: CheckboxProps): React.Node => {
     props.onFocus(event)
   }
 
-  const { className, disabled, inputClasses, label, readOnly, required, value, wrapperClasses } = props
-  const id = props.id || 'toggle'
-  const name = props.name || 'toggle'
+  const { className, disabled, id, inputClasses, label, name, readOnly, required, value, wrapperClasses } = {...defaultProps, ...props}
   return (
     <div className={wrapperClasses}>
       <label className='toggle mb-0' htmlFor={id}>

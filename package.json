@@ -21,6 +21,7 @@
     "clean-webpack-plugin": "^4.0.0",
     "font-awesome": "^4.7.0",
     "i18n-react": "^0.7.0",
+    "js-utils": "https://github.com/VaclavDanek/js-utils.git",
     "loaders.css": "^0.1.2",
     "mini-css-extract-plugin": "^2.6.1",
     "moment": "^2.22.1",
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
+    "@babel/eslint-parser": "^7.5.4",
     "@babel/node": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-proposal-export-default-from": "^7.0.0",
@@ -59,7 +61,6 @@
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.19.4",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.8",
-    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.5",
     "css-loader": "6.7.1",
     "eslint": "^8.25.0",

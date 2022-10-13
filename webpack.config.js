@@ -10,6 +10,7 @@ const PORT = process.env.PORT || '3000'
 
 module.exports = {
   mode: 'development',
+  target: 'web',
   entry: [
     './src/main.js', // your app's entry point
   ],
@@ -60,22 +61,29 @@ module.exports = {
   },
   devServer: {
     static: './public',
-    // enable HMR
     hot: true,
-    // liveReload: false,
-    // serve index.html in place of 404 responses to allow HTML5 history
-    historyApiFallback: true,
+    liveReload: true,
+    watchFiles: ['./src/template.html', './src/main.js'],
+    historyApiFallback: true, // serve index.html in place of 404 responses to allow HTML5 history
     port: PORT,
     host: HOST,
+    allowedHosts: 'auto',
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
+    open: [`http://localhost:${PORT}`],
   },
   plugins: [
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"development"',
       },
     }),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshPlugin(),
     new DashboardPlugin(),
     new HtmlWebpackPlugin({

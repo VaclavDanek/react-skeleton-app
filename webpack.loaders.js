@@ -9,7 +9,7 @@ module.exports = [
         loader: 'url-loader',
         options: {
           limit: 10000,
-          mimetype : 'image/gif',
+          mimetype: 'image/gif',
         }
       }
     ],
@@ -22,7 +22,7 @@ module.exports = [
         loader: 'url-loader',
         options: {
           limit: 10000,
-          mimetype : 'image/jpg',
+          mimetype: 'image/jpg',
         }
       }
     ],
@@ -35,7 +35,7 @@ module.exports = [
         loader: 'url-loader',
         options: {
           limit: 10000,
-          mimetype : 'image/png',
+          mimetype: 'image/png',
         }
       }
     ],
@@ -48,7 +48,7 @@ module.exports = [
         loader: 'url-loader',
         options: {
           limit: 10000,
-          mimetype : 'image/svg+xml',
+          mimetype: 'image/svg+xml',
         }
       }
     ],
@@ -61,7 +61,7 @@ module.exports = [
         loader: 'url-loader',
         options: {
           limit: 10000,
-          mimetype : 'application/octet-stream',
+          mimetype: 'application/octet-stream',
         }
       }
     ],
@@ -81,7 +81,7 @@ module.exports = [
         loader: 'url-loader',
         options: {
           limit: 10000,
-          mimetype : 'application/font-woff',
+          mimetype: 'application/font-woff',
         }
       }
     ],
@@ -93,7 +93,7 @@ module.exports = [
       {
         loader: 'url-loader',
         options: {
-          prefix : 'font/&limit=5000',
+          prefix: 'font/&limit=5000',
         }
       }
     ],

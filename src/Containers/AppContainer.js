@@ -9,6 +9,7 @@ import type { GlobalState } from '../store/reducers'
 // containers
 import RootContainer from './RootContainer'
 
+// config
 import { basename } from '../config'
 
 type AppProps = {

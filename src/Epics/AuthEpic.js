@@ -1,16 +1,14 @@
 import { Observable, from } from 'rxjs'
 import { catchError, map, switchMap } from 'rxjs/operators'
 import { ofType } from 'redux-observable'
-
 import Api from '../Services/Api'
-import csLanguage from '../Translations/cs.json'
 
 // redux
 import AuthActions, { AuthTypes } from '../Redux/AuthRedux'
 import GeneralActions, { GeneralTypes } from '../Redux/GeneralRedux'
 import UserDataActions, { UserDataTypes } from '../Redux/UserDataRedux'
 
-// types
+import csLanguage from '../Translations/cs.json'
 
 /* eslint-disable import/no-named-as-default-member */
 const AuthEpic = [
@@ -22,7 +20,7 @@ const AuthEpic = [
           switchMap((response) => {
             const { token, expire } = response.data
             return [
-              AuthActions.loginRequestSuccess(token, expire)
+              AuthActions.loginRequestSuccess(token, expire),
             ]
           }),
           catchError((error) => {

@@ -59,20 +59,20 @@ module.exports = {
             drop_debugger: true,
           },
           warnings: false,
-          comments : false,
+          comments: false,
         },
       }),
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[chunkhash].css',
-    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"',
       },
+    }),
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[chunkhash].css',
     }),
     new HtmlWebpackPlugin({
       template: './src/template.html',

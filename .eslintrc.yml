@@ -3,8 +3,6 @@
     - airbnb
     - eslint:recommended
     - prettier
-    - prettier/flowtype
-    - prettier/react
     - plugin:import/react
     - plugin:import/recommended
     - plugin:flowtype/recommended
@@ -15,9 +13,10 @@
     node: true
     es6: true
 
-  parser: "babel-eslint"
+  parser: "@babel/eslint-parser"
   parserOptions:
-    ecmaVersion: 6
+    ecmaVersion: 8
+    requireConfigFile: false
     sourceType: "module"
     ecmaFeatures:
       arrowFunctions: true
@@ -166,9 +165,12 @@
     lines-between-class-members: off
     no-underscore-dangle: 0
 
+    import/order: 0
     import/extensions: 0
     import/no-extraneous-dependencies: 0
 
     array-element-newline: off
     array-bracket-newline: off
     object-curly-newline: off
+
+    react/function-component-definition: [2, { namedComponents: "arrow-function", unnamedComponents: "arrow-function" }]

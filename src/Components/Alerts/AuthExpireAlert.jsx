@@ -5,11 +5,11 @@ import I18n from 'i18n-react'
 // components
 import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
-type AuthExpireAlertProps = {
+type AuthExpireAlertProps = {|
   className?: string,
   show: boolean,
   onClose: () => void,
-}
+|}
 
 const AuthExpireAlert = (props: AuthExpireAlertProps): React.Node => {
   const handleOnClose = (): void => {

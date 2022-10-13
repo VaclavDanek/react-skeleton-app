@@ -13,6 +13,5 @@ module.exports = {
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-json-strings',
     '@babel/plugin-syntax-import-meta',
-    'react-refresh/babel',
   ],
 }

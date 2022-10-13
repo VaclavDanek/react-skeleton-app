@@ -44,15 +44,13 @@ export const INITIAL_STATE = Immutable({ // eslint-disable-line
 export const clearError = (state: AuthState): AuthState =>
   state.set('error', INITIAL_STATE.error)
 
-export const loginRequestSuccess = (state: AuthState, { authorization, expire = 0 }: { authorization: string, expire: number }): AuthState => {
-  console.log(authorization, expire)
-  return state.merge({
+export const loginRequestSuccess = (state: AuthState, { authorization, expire = 0 }: { authorization: string, expire: number }): AuthState =>
+  state.merge({
     authorization,
     error: INITIAL_STATE.error,
     time: moment().format('DD.MM.YYYY HH:mm:ss'),
     expire,
   })
-}
 
 export const logout = (state: AuthState): AuthState =>
   state.merge(INITIAL_STATE)

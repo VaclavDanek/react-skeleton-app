@@ -11,8 +11,7 @@ import type { ValueObject } from '../Types/ValuesType'
 // components
 
 // redux
-import GeneralActions from '../Redux/GeneralRedux'
-import AuthActions from '../Redux/AuthRedux'
+import UserDataActions from '../Redux/UserDataRedux'
 
 type ParentProps = {
   isMobile: boolean,

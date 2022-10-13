@@ -8,13 +8,13 @@ import 'loaders.css/src/animations/ball-pulse-sync.scss'
 // import 'loaders.css/src/animations/ball-scale-multiple.scss'
 // import 'loaders.css/src/animations/line-scale.scss'
 
-type LoaderProps = {
+type LoaderProps = {|
   active: boolean,
   className?: string,
   color?: string,
   innerClassName?: string,
   type?: string,
-}
+|}
 
 const defaultProps = {
   className: 'react-loader position-fixed d-flex align-items-center justify-content-center h-100 w-100',

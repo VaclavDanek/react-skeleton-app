@@ -6,7 +6,7 @@ import '../../static/styles/components/switch.scss'
 
 // types
 
-type SwitchProps = {
+type SwitchProps = {|
   className?: string,
   'data-for'?: string,
   'data-tip'?: any,
@@ -21,6 +21,12 @@ type SwitchProps = {
   readOnly?: boolean,
   value: boolean,
   wrapperClasses?: string,
+|}
+
+const defaultProps = {
+  id: 'onoffswitch',
+  name: 'onoffswitch',
+  wrapperClasses: 'onoffswitch',
 }
 
 const Switch = (props: SwitchProps): React.Node => {
@@ -45,11 +51,9 @@ const Switch = (props: SwitchProps): React.Node => {
     props.onFocus(event)
   }
 
-  const { className, disabled, inputClasses, readOnly, value, wrapperClasses } = props
-  const id = props.id || 'onoffswitch'
-  const name = props.name || 'onoffswitch'
+  const { className, disabled, id, inputClasses, name, readOnly, value, wrapperClasses } = {...defaultProps, ...props}
   return (
-    <div className={wrapperClasses || 'onoffswitch'}>
+    <div className={wrapperClasses}>
       <input
         key={name}
         className={inputClasses || className || 'onoffswitch-checkbox'}

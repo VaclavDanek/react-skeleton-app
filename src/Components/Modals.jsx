@@ -4,26 +4,25 @@ import I18n from 'i18n-react'
 
 // components
 import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
-import UpdateAlert from './UpdateAlert.jsx'
-import AuthExpireAlert from './AuthExpireAlert.jsx'
+import { AuthExpireAlert, UpdateAlert } from './Alerts'
 
 // types
 import type {
   ValueObject,
-  Alert as AlertType
+  Alert as AlertType,
 } from '../Types/ValuesType'
 
-// custom variables & functions
-import { toggleFullScreen } from '../Utils/Functions'
+// utils
+import { functions as utils } from 'js-utils'
 
-type ModalsProps = {
+type ModalsProps = {|
   alerts?: Array<AlertType>,
   className?: string,
   data: ValueObject,
   modals?: { [key: string]: boolean },
   onCloseAlert: (number) => void,
   onToggleModal: (string) => void,
-}
+|}
 
 type ModalsState = {}
 
@@ -67,7 +66,7 @@ export default class Modals extends React.Component<ModalsProps, ModalsState> {
                     className='btn btn-primary btn-lg btn-block'
                     onClick={() => {
                       this.handleToggleModal('fullScreen')
-                      toggleFullScreen()
+                      utils.toggleFullScreen()
                     }}
                     type='button'
                   >{I18n.translate('general.labels.yes')}</button>

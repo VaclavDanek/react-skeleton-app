@@ -2,12 +2,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { isMobile } from 'react-device-detect'
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import I18n from 'i18n-react'
 
 // types
 import type { GlobalState } from '../store/reducers'
-import type { Alert } from '../Types/ValuesType'
+import type { Alert, ValueObject, Values } from '../Types/ValuesType'
 import type {
   Error as CustomError,
   ErrorEvent as CustomErrorEvent,
@@ -17,12 +17,10 @@ import type {
 import HomeContainer from './HomeContainer'
 
 // components
-import Loader from '../Components/Loader.jsx'
-import Modals from '../Components/Modals.jsx'
+import { Loader, Modals } from '../Components'
 
 // redux
 import GeneralActions from '../Redux/GeneralRedux'
-import UserDataActions from '../Redux/UserDataRedux'
 
 // translations
 import csLanguage from '../Translations/cs.json'
@@ -61,7 +59,7 @@ type RootState = {
 
 class RootScreen extends React.Component<RootProps, RootState> {
 
-  static getDerivedStateFromProps = (nextProps: RootProps, prevState: RootState): RootState | null => {
+  static getDerivedStateFromProps(nextProps, prevState) {
     const { onChangeRedirectUrl, redirectUrl } = nextProps
     if (redirectUrl) { // reset after every redirect
       onChangeRedirectUrl('')
@@ -78,7 +76,6 @@ class RootScreen extends React.Component<RootProps, RootState> {
     this.state = {
       hasError: false,
       modals: {
-        authExpireAlert: false,
         updateAlert: false,
       },
     }
@@ -95,18 +92,18 @@ class RootScreen extends React.Component<RootProps, RootState> {
     window.addEventListener('error', this.handleOnError)
   }
 
-  componentDidMount = (): void => {}
+  componentDidMount() {}
 
-  componentWillUnmount = (): void => {
-    window.removeEventListener('error', this.handleOnError)
-  }
-
-  componentDidCatch = (error: Error, info: React.ErrorInfo): void => {
+  componentDidCatch(error, info) {
     const errorEvent: CustomErrorEvent = {
       message: error,
       stack: info.componentStack,
     }
     this.handleOnError(errorEvent)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('error', this.handleOnError)
   }
 
   handleOnError = (errorEvent: ErrorEvent | CustomErrorEvent): void => {
@@ -115,7 +112,9 @@ class RootScreen extends React.Component<RootProps, RootState> {
       if (!config.ignoredErrorEventMessages.includes(errorEvent.message)) {
         onStopFetching()
         onActionFailure(errorEvent)
-        addAlert({ message: I18n.translate('alerts.onGlobalError'), type: 'danger' })
+        if (process.env.NODE_ENV === 'production' && config.showErrorAlert) {
+          addAlert({ message: I18n.translate('alerts.onGlobalError'), type: 'danger' })
+        }
       }
     }
     else {
@@ -127,6 +126,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
     this.props.onChangeRedirectUrl(path)
   }
 
+  // eslint-disable-next-line class-methods-use-this
   handleOnReload = (): void => {
     window.location.reload()
   }
@@ -142,16 +142,16 @@ class RootScreen extends React.Component<RootProps, RootState> {
     })
   }
 
-  handleScrollToElement = (component: HTMLElement | string): void => {
+  handleScrollToElement = (component: HTMLElement | string, options?: Values = {
+    behavior: 'smooth',
+    block: 'start',
+    inline: 'start',
+  }): void => {
     if (typeof component === 'string') {
       component = this[component] || this.refs[component] // warning: "this.refs" is deprecated!
     }
     if (component) {
-      component.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'start',
-      })
+      component.scrollIntoView(options)
     }
   }
 
