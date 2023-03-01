@@ -167,7 +167,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
         <Switch>
           <Route
             exact
-            path='/'
+            path=''
             render={(props: RootProps) => (
               <HomeContainer
                 {...props}

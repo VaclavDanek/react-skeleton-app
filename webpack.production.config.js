@@ -37,10 +37,6 @@ module.exports = {
             loader: 'css-loader',
             options: {
               esModule: true,
-              modules: {
-                namedExport: true,
-                localIdentName: '[local]___[hash:base64:5]',
-              },
             },
           },
           'postcss-loader',

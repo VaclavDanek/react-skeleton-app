@@ -33,7 +33,11 @@ class HomeScreen extends React.Component<HomeProps, HomeState> {
   state = {}
 
   render() {
-    return null
+    return (
+      <div className='mt-5'>
+        <h1 className='text-center'><i class='fa fa-info' aria-hidden='true'></i> Hello World!</h1>
+      </div>
+    )
   }
 }
 
