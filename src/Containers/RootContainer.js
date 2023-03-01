@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { isMobile } from 'react-device-detect'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import I18n from 'i18n-react'
 
 // types
@@ -24,7 +24,6 @@ import GeneralActions from '../Redux/GeneralRedux'
 
 // translations
 import csLanguage from '../Translations/cs.json'
-// import enLanguage from '../Translations/en.json'
 
 // styles
 import 'font-awesome/css/font-awesome.min.css'
@@ -81,9 +80,6 @@ class RootScreen extends React.Component<RootProps, RootState> {
     }
 
     switch (navigator.language) {
-      /* case 'en':
-        I18n.setTexts(enLanguage)
-        break */
       case 'cs':
       default:
         I18n.setTexts(csLanguage)
@@ -164,20 +160,21 @@ class RootScreen extends React.Component<RootProps, RootState> {
 
     return [
       <div key='app-wrapper' id='body'>
-        <Switch>
-          <Route
-            exact
-            path=''
-            render={(props: RootProps) => (
-              <HomeContainer
-                {...props}
-                isMobile={isMobile}
-                scrollToElement={handleScrollToElement}
-              />
-            )}
-          />
-          {redirectUrl && <Redirect to={redirectUrl} />}
-        </Switch>
+        <BrowserRouter basename={config.basename}>
+          <Routes>
+            <Route
+              exact
+              path='/'
+              element={
+                <HomeContainer
+                  isMobile={isMobile}
+                  scrollToElement={handleScrollToElement}
+                />
+              }
+            />
+          </Routes>
+          {redirectUrl && <Navigate to={redirectUrl} />}
+        </BrowserRouter>
       </div>,
       <Modals
         key='modals'
