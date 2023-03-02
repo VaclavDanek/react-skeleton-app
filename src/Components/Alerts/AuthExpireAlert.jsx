@@ -1,9 +1,7 @@
 // @flow
 import React from 'react'
-import I18n from 'i18n-react'
-
-// components
 import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import I18n from 'i18n-react'
 
 type AuthExpireAlertProps = {|
   className?: string,

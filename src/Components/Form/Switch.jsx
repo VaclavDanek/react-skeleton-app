@@ -4,8 +4,6 @@ import React from 'react'
 // styles
 import '../../static/styles/components/switch.scss'
 
-// types
-
 type SwitchProps = {|
   className?: string,
   'data-for'?: string,

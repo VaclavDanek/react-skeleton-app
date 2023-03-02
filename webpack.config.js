@@ -44,7 +44,7 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 1,
+              importLoaders: 2,
               sourceMap: true,
             },
           },
@@ -61,6 +61,7 @@ module.exports = {
   },
   devServer: {
     static: './public',
+    compress: true,
     hot: true,
     liveReload: true,
     watchFiles: ['./src/template.html', './src/main.js'],
@@ -68,6 +69,10 @@ module.exports = {
     port: PORT,
     host: HOST,
     allowedHosts: 'auto',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*',
+    },
     client: {
       overlay: {
         errors: true,

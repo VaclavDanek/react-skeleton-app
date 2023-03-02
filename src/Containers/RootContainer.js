@@ -5,22 +5,17 @@ import { isMobile } from 'react-device-detect'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import I18n from 'i18n-react'
 
-// types
-import type { GlobalState } from '../store/reducers'
-import type { Alert, ValueObject, Values } from '../Types/ValuesType'
-import type {
-  Error as CustomError,
-  ErrorEvent as CustomErrorEvent,
-} from '../Types/ErrorTypes'
+import { setAuth, setHeader } from '../Services/Api'
+import * as config from '../config'
+
+// redux
+import GeneralActions from '../Redux/GeneralRedux'
 
 // containers
 import HomeContainer from './HomeContainer'
 
 // components
 import { Loader, Modals } from '../Components'
-
-// redux
-import GeneralActions from '../Redux/GeneralRedux'
 
 // translations
 import csLanguage from '../Translations/cs.json'
@@ -31,8 +26,13 @@ import '../static/styles/bootstrap.min.css'
 import '../static/styles/root.scss'
 import '../static/styles/mobile.scss'
 
-import { setAuth, setHeader } from '../Services/Api'
-import * as config from '../config'
+// types
+import type { GlobalState } from '../store/reducers'
+import type { Alert, ValueObject, Values } from '../Types/ValuesType'
+import type {
+  Error as CustomError,
+  ErrorEvent as CustomErrorEvent,
+} from '../Types/ErrorTypes'
 
 type ParentProps = {}
 
@@ -166,10 +166,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
               exact
               path='/'
               element={
-                <HomeContainer
-                  isMobile={isMobile}
-                  scrollToElement={handleScrollToElement}
-                />
+                <HomeContainer scrollToElement={handleScrollToElement} />
               }
             />
           </Routes>
@@ -178,14 +175,13 @@ class RootScreen extends React.Component<RootProps, RootState> {
       </div>,
       <Modals
         key='modals'
-        addAlert={addAlert}
         alerts={alerts}
-        data={{
+        modals={modals}
+        modalProps={{
           updateAlert: {
             onClose: handleOnReload,
           },
         }}
-        modals={modals}
         onCloseAlert={handleOnCloseAlert}
         onToggleModal={handleToggleModal}
       />,

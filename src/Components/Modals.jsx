@@ -1,9 +1,10 @@
 // @flow
 import React from 'react'
+import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
+import { functions as utils } from 'js-utils'
 import I18n from 'i18n-react'
 
 // components
-import { Alert, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { AuthExpireAlert, UpdateAlert } from './Alerts'
 
 // types
@@ -12,14 +13,11 @@ import type {
   Alert as AlertType,
 } from '../Types/ValuesType'
 
-// utils
-import { functions as utils } from 'js-utils'
-
 type ModalsProps = {|
-  alerts?: Array<AlertType>,
   className?: string,
-  data: ValueObject,
+  alerts?: Array<AlertType>,
   modals?: { [key: string]: boolean },
+  modalProps: { [key: string]: ValueObject },
   onCloseAlert: (number) => void,
   onToggleModal: (string) => void,
 |}
@@ -48,9 +46,7 @@ export default class Modals extends React.Component<ModalsProps, ModalsState> {
   }
 
   render() {
-    const { alerts, data, modals } = this.props
-    const { updateAlert } = data
-
+    const { alerts, modals, modalProps } = this.props
     return [
       <Modal key='modal-fullScreen' data-key='modal-fullScreen' isOpen={modals.fullScreen} toggle={this.handleOnCloseModal}>
         <ModalHeader>
@@ -64,18 +60,18 @@ export default class Modals extends React.Component<ModalsProps, ModalsState> {
                 <div className='col-6 pr-0'>
                   <button
                     className='btn btn-primary btn-lg btn-block'
+                    type='button'
                     onClick={() => {
                       this.handleToggleModal('fullScreen')
                       utils.toggleFullScreen()
                     }}
-                    type='button'
                   >{I18n.translate('general.labels.yes')}</button>
                 </div>
                 <div className='col-6'>
                   <button
                     className='btn btn-primary btn-lg btn-block'
-                    onClick={this.handleOnCloseModal}
                     type='button'
+                    onClick={this.handleOnCloseModal}
                   >{I18n.translate('general.labels.no')}</button>
                 </div>
               </div>
@@ -85,14 +81,13 @@ export default class Modals extends React.Component<ModalsProps, ModalsState> {
       </Modal>,
       <UpdateAlert
         key='modal-alert-update'
-        className={updateAlert.className}
-        onClose={updateAlert.onClose}
         show={modals.updateAlert}
+        {...modalProps.updateAlert}
       />,
       <AuthExpireAlert
         key='modal-alert-authExpire'
-        onClose={() => { this.handleToggleModal('authExpireAlert') }}
         show={modals.authExpireAlert}
+        onClose={() => { this.handleToggleModal('authExpireAlert') }}
       />,
       alerts.map((alert, index) => (
         // eslint-disable-next-line react/no-array-index-key

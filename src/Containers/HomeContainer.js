@@ -4,26 +4,26 @@ import { connect } from 'react-redux'
 import I18n from 'i18n-react'
 import classNames from 'classnames'
 
+// utils
+import { withRouter } from '../Utils'
+
+// redux
+
 // types
 import type { GlobalState } from '../store/reducers'
 import type { ValueObject } from '../Types/ValuesType'
-
-// components
-
-// redux
-import UserDataActions from '../Redux/UserDataRedux'
+import type { Router } from '../Utils/withRouter'
 
 type ParentProps = {
-  isMobile: boolean,
   scrollToElement: (HTMLElement | string) => void,
 }
 
 type StateProps = {
+  router: Router,
   userData: ValueObject,
 }
 
 type DispatchProps = {
-  addAlert: () => void,
 }
 
 type HomeProps = ParentProps & StateProps & DispatchProps
@@ -50,4 +50,4 @@ const mapDispatchToProps = {
 }
 /* eslint-enable import/no-named-as-default-member */
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HomeScreen))

@@ -9,6 +9,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 module.exports = {
   mode: 'production',
   entry: ['./src/main.js'],
+  devtool: process.env.WEBPACK_DEVTOOL || 'source-map',
   output: {
     publicPath: './',
     path: path.join(__dirname, 'public'),
@@ -36,7 +37,8 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
-              esModule: true,
+              importLoaders: 2,
+              sourceMap: false,
             },
           },
           'postcss-loader',

@@ -4,8 +4,6 @@ import React from 'react'
 // styles
 import '../../static/styles/components/checkbox.css'
 
-// types
-
 type CheckboxProps = {|
   className?: string,
   'data-for'?: string,
