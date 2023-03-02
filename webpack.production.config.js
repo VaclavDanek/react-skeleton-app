@@ -13,7 +13,7 @@ module.exports = {
   output: {
     publicPath: './',
     path: path.join(__dirname, 'public'),
-    filename: '[chunkhash].js',
+    filename: '[contenthash].js',
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -70,7 +70,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[chunkhash].css',
+      filename: '[contenthash].css',
     }),
     new HtmlWebpackPlugin({
       template: './src/template.html',

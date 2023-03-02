@@ -1,5 +1,5 @@
 # Info
-React skeleton app, loosely based on "DevX empty project".
+React starter-kit project
 
 ## Main features
 * flow
