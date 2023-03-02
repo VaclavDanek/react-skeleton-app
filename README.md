@@ -6,7 +6,8 @@ React skeleton app, loosely based on "DevX empty project".
 * webpack
 * babel
 * eslint
-* react-redux & reduxsauce with seamless-immutable state
+* react-redux with seamless-immutable state
+* reduxsauce
 * react-router-dom
 * axios
 * jest
