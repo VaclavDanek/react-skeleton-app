@@ -35,4 +35,5 @@ yarn.lock
 tmp/*
 !tmp/readme.md
 public
+webpack-report
 src/submodules/*

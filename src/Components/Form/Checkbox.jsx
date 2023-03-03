@@ -13,10 +13,10 @@ type CheckboxProps = {|
   inputClasses?: string,
   label: string,
   name?: string,
-  onBlur?: (SyntheticInputEvent<HTMLInputElement>) => void,
-  onChange: (SyntheticInputEvent<HTMLInputElement>) => void,
+  onBlur?: (event: SyntheticInputEvent<HTMLInputElement>) => void,
+  onChange: (event: SyntheticInputEvent<HTMLInputElement>) => void,
   onClick?: (event: SyntheticEvent<HTMLSpanElement>) => void,
-  onFocus?: (SyntheticInputEvent<HTMLInputElement>) => void,
+  onFocus?: (event: SyntheticInputEvent<HTMLInputElement>) => void,
   readOnly?: boolean,
   required?: boolean,
   value: boolean,
@@ -31,7 +31,7 @@ const defaultProps = {
 const Checkbox = (props: CheckboxProps): React.Node => {
   const handleOnClick = (event: SyntheticEvent<HTMLSpanElement>): void => {
     if (props.onClick) {
-      props.onClick()
+      props.onClick(event)
     }
   }
 

@@ -4,7 +4,10 @@ const loaders = require('./webpack.loaders')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin  = require('mini-css-extract-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+
+const WEBPACK_REPORT = false
 
 module.exports = {
   mode: 'production',
@@ -45,7 +48,7 @@ module.exports = {
           'sass-loader',
         ],
       },
-      ...loaders
+      ...loaders,
     ],
   },
   optimization: {
@@ -80,4 +83,16 @@ module.exports = {
       },
     }),
   ],
+}
+
+if (WEBPACK_REPORT) {
+	module.exports.plugins.push(
+		new BundleAnalyzerPlugin({
+			analyzerMode: 'static',
+			generateStatsFile: true,
+			openAnalyzer: false,
+      reportFilename: path.join(__dirname, 'webpack-report/index.html'),
+			statsFilename: path.join(__dirname, 'webpack-report/stats.json'),
+		})
+	)
 }

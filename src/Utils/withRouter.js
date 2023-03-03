@@ -5,12 +5,12 @@ import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 // types
 import type { ValueObject } from '../Types/ValuesType'
 
-export type Router = {
+export type Router = {|
   location: Location,
   pathParams: PathParams,
   searchParams: SearchParams,
   setSearchParams: (ValueObject, { replace: boolean }) => void,
-}
+|}
 
 export type Location = {
   pathname: string,

@@ -11,9 +11,7 @@ const PORT = process.env.PORT || '3000'
 module.exports = {
   mode: 'development',
   target: 'web',
-  entry: [
-    './src/main.js', // your app's entry point
-  ],
+  entry: ['./src/main.js'], // your app's entry point
   devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
   output: {
     publicPath: '/',
@@ -52,7 +50,7 @@ module.exports = {
           'sass-loader',
         ],
       },
-      ...loaders
+      ...loaders,
     ],
   },
   stats: {
@@ -99,5 +97,4 @@ module.exports = {
       },
     }),
   ],
-  cache: false,
 }

@@ -138,16 +138,16 @@ class RootScreen extends React.Component<RootProps, RootState> {
     })
   }
 
-  handleScrollToElement = (component: HTMLElement | string, options?: Values = {
+  handleScrollToElement = (element: HTMLElement | string, options?: Values = {
     behavior: 'smooth',
     block: 'start',
     inline: 'start',
   }): void => {
-    if (typeof component === 'string') {
-      component = this[component] || this.refs[component] // warning: "this.refs" is deprecated!
+    if (typeof element === 'string') { // take ref from this class
+      element = this[element]
     }
-    if (component) {
-      component.scrollIntoView(options)
+    if (element) {
+      element.current.scrollIntoView(options)
     }
   }
 
@@ -159,7 +159,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
     const { modals } = this.state
 
     return [
-      <div key='app-wrapper' id='body'>
+      <div key='app-wrapper' id='body' ref={this.myRef}>
         <BrowserRouter basename={config.basename}>
           <Routes>
             <Route

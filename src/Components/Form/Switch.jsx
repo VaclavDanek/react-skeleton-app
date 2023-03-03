@@ -12,10 +12,10 @@ type SwitchProps = {|
   id?: string,
   inputClasses?: string,
   name?: string,
-  onBlur?: (SyntheticInputEvent<HTMLInputElement>) => void,
-  onChange: (SyntheticInputEvent<HTMLInputElement>) => void,
+  onBlur?: (event: SyntheticInputEvent<HTMLInputElement>) => void,
+  onChange: (event: SyntheticInputEvent<HTMLInputElement>) => void,
   onClick?: (event: SyntheticEvent<HTMLLabelElement>) => void,
-  onFocus?: (SyntheticInputEvent<HTMLInputElement>) => void,
+  onFocus?: (event: SyntheticInputEvent<HTMLInputElement>) => void,
   readOnly?: boolean,
   value: boolean,
   wrapperClasses?: string,
@@ -30,7 +30,7 @@ const defaultProps = {
 const Switch = (props: SwitchProps): React.Node => {
   const handleOnClick = (event: SyntheticEvent<HTMLLabelElement>): void => {
     if (props.onClick) {
-      props.onClick()
+      props.onClick(event)
     }
   }
 
