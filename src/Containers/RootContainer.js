@@ -159,7 +159,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
     const { modals } = this.state
 
     return [
-      <div key='app-wrapper' id='body' ref={this.myRef}>
+      <div key='app-wrapper'>
         <BrowserRouter basename={config.basename}>
           <Routes>
             <Route
