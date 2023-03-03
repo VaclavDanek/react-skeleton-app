@@ -85,6 +85,7 @@ class RootScreen extends React.Component<RootProps, RootState> {
         I18n.setTexts(csLanguage)
         break
     }
+
     window.addEventListener('error', this.handleOnError)
   }
 
@@ -131,9 +132,9 @@ class RootScreen extends React.Component<RootProps, RootState> {
     this.props.removeAlert(index)
   }
 
-  handleToggleModal = (key: string, show?: boolean = null): void => {
+  handleToggleModal = (key: string, show?: boolean): void => {
     this.setState((prevState) => {
-      prevState.modals[key] = show !== null ? show : !prevState.modals[key]
+      prevState.modals[key] = show ?? !prevState.modals[key]
       return ({ modals: prevState.modals })
     })
   }
