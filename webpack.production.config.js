@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 const webpack = require('webpack')
 const path = require('path')
 const loaders = require('./webpack.loaders')
@@ -5,32 +7,35 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin  = require('mini-css-extract-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
-const WEBPACK_REPORT = false
+const WEBPACK_REPORT = true
 
 module.exports = {
   mode: 'production',
-  entry: ['./src/main.js'],
+  entry: ['./src/index.jsx'],
   devtool: process.env.WEBPACK_DEVTOOL || 'source-map',
   output: {
+    clean: true,
     publicPath: './',
-    path: path.join(__dirname, 'public'),
-    filename: '[contenthash].js',
+    path: path.join(__dirname, 'dist'),
+    filename: 'js/[contenthash].js',
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        exclude: /(node_modules|public\/)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
+        test: /\.(j|t)sx?$/,
+        include: /src/,
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            '@babel/preset-env',
+            ['@babel/preset-react', { runtime: 'automatic' }],
+            '@babel/preset-typescript',
+          ],
         },
       },
       {
@@ -59,8 +64,10 @@ module.exports = {
             drop_console: true,
             drop_debugger: true,
           },
+          output: {
+            comments: false,
+          },
           warnings: false,
-          comments: false,
         },
       }),
     ],
@@ -71,16 +78,25 @@ module.exports = {
         NODE_ENV: '"production"',
       },
     }),
-    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[contenthash].css',
+      filename: 'css/[contenthash].css',
+    }),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.join(__dirname, 'public'),
+          to: path.join(__dirname, 'dist'),
+          toType: 'dir',
+          globOptions: {
+            ignore: ['**/index.html'],
+            dot: true,
+          },
+        },
+      ],
     }),
     new HtmlWebpackPlugin({
-      template: './src/template.html',
-      files: {
-        css: ['style.css'],
-        js: ['bundle.js'],
-      },
+      template: './public/index.html',
+      inject: 'body',
     }),
   ],
 }

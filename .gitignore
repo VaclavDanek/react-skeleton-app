@@ -27,13 +27,11 @@ build/Release
 node_modules
 
 # Ignore build files
-public
+dist
 
 .idea
 package-lock.json
 yarn.lock
 tmp/*
 !tmp/readme.md
-public
 webpack-report
-src/submodules/*

@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 module.exports = [
   {
     test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,

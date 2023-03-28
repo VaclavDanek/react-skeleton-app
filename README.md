@@ -2,20 +2,17 @@
 React starter-kit project
 
 ## Main features
-* flow
+* typescript
 * webpack
 * babel
-* eslint
 * react-redux with seamless-immutable state
 * reduxsauce
 * react-router-dom
 * axios
 * jest
 * i18n-react
-* reactstrap
-* react-loaders
-* bootstrap 4
-* font-awesome 4.7
+* bootstrap
+* font-awesome
 
 ## Installation and startup
 1. npm install or yarn install
@@ -24,4 +21,4 @@ React starter-kit project
 
 ## Build
 1. npm build or yarn build
-2. go to "public" folder, located in the root directory
+2. go to "dist" folder, located in the root directory

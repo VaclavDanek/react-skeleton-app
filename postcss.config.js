@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 const AUTOPREFIXER_BROWSERS = [
   'Android 2.3',
   'Android >= 4',
