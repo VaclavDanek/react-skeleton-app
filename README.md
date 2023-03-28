@@ -5,14 +5,17 @@ React starter-kit project
 * typescript
 * webpack
 * babel
+* eslint
 * react-redux with seamless-immutable state
 * reduxsauce
-* react-router-dom
+* react-router
 * axios
 * jest
 * i18n-react
-* bootstrap
 * font-awesome
+* bootstrap
+* scss support
+* hot module replacement with fast refresh plugin
 
 ## Installation and startup
 1. npm install or yarn install
