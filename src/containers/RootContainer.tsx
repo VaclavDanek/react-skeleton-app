@@ -18,7 +18,7 @@ import { HomePage } from '../pages'
 import { Loader, Modals } from '../components'
 
 // translations
-import csLanguage from '../Translations/cs.json'
+import csLanguage from '../translations/cs.json'
 
 // styles
 import 'bootstrap/scss/bootstrap.scss'
