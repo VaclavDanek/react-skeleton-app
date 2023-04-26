@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import I18n from 'i18n-react'
 
-interface IAuthExpireAlertProps {
+interface AuthExpireAlertProps {
   className?: string;
   show: boolean;
   onClose: () => void;
 }
 
-const AuthExpireAlert = (props: Readonly<IAuthExpireAlertProps>): JSX.Element => {
+const AuthExpireAlert = (props: Readonly<AuthExpireAlertProps>): JSX.Element => {
   const handleOnClose = (): void => {
     props.onClose()
   }

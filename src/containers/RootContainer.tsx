@@ -1,15 +1,8 @@
+import I18n from 'i18n-react'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import I18n from 'i18n-react'
-
-import { ReducersEnum } from '../store/reducers'
-import { ComponentWithReducers } from '../utils'
 import * as config from '../config'
-
-// redux
-import { GeneralActions } from '../redux/generalRedux'
-import UserDataReduxReducer from '../redux/userDataRedux'
 
 // pages
 import { HomePage } from '../pages'
@@ -17,53 +10,44 @@ import { HomePage } from '../pages'
 // components
 import { Loader, Modals } from '../components'
 
-// translations
-import csLanguage from '../translations/cs.json'
+// redux
+import { generalActions } from '../redux/generalRedux'
 
-// styles
-import 'bootstrap/scss/bootstrap.scss'
-import '../styles/root.scss'
-import '../styles/mobile.scss'
+// translations
+import { csLanguage, enLanguage } from '../translations'
 
 // types
 import type { RefObject } from 'react'
-import type { ImmutableArray } from 'seamless-immutable'
-import type { IGlobalState } from '../store/reducers'
-import type { IAlert, IScrollIntoViewOptions, ModalsType } from '../types'
-import type { IError, ICustomErrorEvent, ErrorTypesEnum, IAxiosError } from '../types/errorTypes'
-import type { ModalType } from '../components/Modals'
+import type { State } from '../store/reducers'
+import type { ScrollIntoViewOptions } from '../types'
+import type { CustomErrorEvent } from '../types/errorTypes'
+import type { ModalKey } from '../components/Modals'
 
-interface IStateProps {
-  modals: ModalsType;
-  alerts: ImmutableArray<IAlert>;
-  errors: ImmutableArray<IError | IAxiosError>;
-  fetching: number;
-  redirectUrl: string;
-}
+// styles
+import 'bootstrap/scss/bootstrap.scss'
+import '../styles/main.scss'
+import '../styles/mobile.scss'
 
-interface IDispatchProps {
-  addAlert: (alert: IAlert) => void;
-  onActionFailure: (errorEvent: ErrorEvent | ICustomErrorEvent, errorType?: ErrorTypesEnum) => void;
-  onStopFetching: () => void;
-  removeAlert: (index: number) => void;
-  setRedirectUrl: (url: string) => void;
-  toggleModal: (key: ModalType, show?: boolean) => void;
-}
+type RootContainerProps = Readonly<ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps>
 
-interface IRootContainerProps extends IStateProps, IDispatchProps {}
-interface IRootContainerState {
+interface RootContainerState {
   hasError?: boolean;
 }
 
-class RootContainer extends Component<Readonly<IRootContainerProps>, IRootContainerState> {
-  constructor(props: Readonly<IRootContainerProps>) {
-    super(props)
-    this.state = {}
+class RootContainer extends Component<RootContainerProps, RootContainerState> {
+  state: RootContainerState = {}
 
+  constructor(props: RootContainerProps) {
+    super(props)
+    
     switch (navigator.language) {
       case 'cs':
-      default:
+      case 'cs-CZ':
         I18n.setTexts(csLanguage)
+        break
+      case 'en':
+      default:
+        I18n.setTexts(enLanguage)
         break
     }
 
@@ -71,9 +55,9 @@ class RootContainer extends Component<Readonly<IRootContainerProps>, IRootContai
   }
 
   static getDerivedStateFromProps(
-    nextProps: Readonly<IRootContainerProps>, 
-    prevState: IRootContainerState,
-  ): Partial<IRootContainerState> | null {
+    nextProps: RootContainerProps, 
+    prevState: RootContainerState, // eslint-disable-line @typescript-eslint/no-unused-vars
+  ): Partial<RootContainerState> | null {
     const { redirectUrl, setRedirectUrl } = nextProps
     if (redirectUrl) { // reset after every redirect
       setRedirectUrl('')
@@ -81,14 +65,15 @@ class RootContainer extends Component<Readonly<IRootContainerProps>, IRootContai
     return null
   }
 
-  static getDerivedStateFromError(error: Error): Partial<IRootContainerState> {
+   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  static getDerivedStateFromError(error: Error): Partial<RootContainerState> {
     return { hasError: true }
   }
 
   componentDidMount(): void {}
 
   componentDidCatch?(error: Error, errorInfo: React.ErrorInfo): void {
-    const errorEvent: ICustomErrorEvent = {
+    const errorEvent: CustomErrorEvent = {
       message: error.message,
       stack: errorInfo.componentStack,
     }
@@ -99,19 +84,15 @@ class RootContainer extends Component<Readonly<IRootContainerProps>, IRootContai
     window.removeEventListener('error', this.handleOnError)
   }
 
-  handleOnError = (errorEvent?: ErrorEvent | ICustomErrorEvent): void => {
+  handleOnError = (errorEvent?: ErrorEvent | CustomErrorEvent): void => {
     const { addAlert, onActionFailure, onStopFetching } = this.props
-    if (errorEvent) {
-      if (!config.ignoredErrorEventMessages.includes(errorEvent.message)) {
-        onStopFetching()
-        onActionFailure(errorEvent)
-        if (process.env.NODE_ENV === 'production' && config.showErrorAlert) {
-          addAlert({ message: I18n.translate('alerts.onGlobalError') as string, type: 'warning' })
-        }
+    
+    onStopFetching() // just for sure...
+    if (errorEvent && !config.ignoredErrorEventMessages.includes(errorEvent.message)) {
+      onActionFailure(errorEvent)
+      if (process.env.NODE_ENV === 'production' && config.showErrorAlert) {
+        addAlert({ message: I18n.translate('alerts.onGlobalError') as string, type: 'warning' })
       }
-    }
-    else {
-      onStopFetching() // just for sure...
     }
   }
 
@@ -127,11 +108,11 @@ class RootContainer extends Component<Readonly<IRootContainerProps>, IRootContai
     this.props.removeAlert(index)
   }
 
-  handleToggleModal = (key: ModalType, show?: boolean): void => {
+  handleToggleModal = (key: ModalKey, show?: boolean): void => {
     this.props.toggleModal(key, show)
   }
 
-  handleScrollToElement = (element: RefObject<any> | string, options: IScrollIntoViewOptions = {
+  handleScrollToElement = (element: RefObject<any> | string, options: ScrollIntoViewOptions = {
     behavior: 'smooth',
     block: 'start',
     inline: 'start',
@@ -148,18 +129,14 @@ class RootContainer extends Component<Readonly<IRootContainerProps>, IRootContai
   render(): JSX.Element {
     const { handleOnCloseAlert, handleScrollToElement, handleToggleModal } = this
     const { alerts, fetching, modals, redirectUrl } = this.props
-    
+
     return <>
       <div>
         <BrowserRouter basename={config.basename}>
           <Routes>
             <Route
               path='/'
-              element={
-                <ComponentWithReducers reducers={{ [ReducersEnum.userData]: UserDataReduxReducer }}>
-                  <HomePage scrollToElement={handleScrollToElement} />
-                </ComponentWithReducers>
-              }
+              element={<HomePage scrollToElement={handleScrollToElement} />}
             />
           </Routes>
           {redirectUrl && <Navigate to={redirectUrl} />}
@@ -176,17 +153,18 @@ class RootContainer extends Component<Readonly<IRootContainerProps>, IRootContai
   }
 }
 
-const mapStateToProps = (state: IGlobalState): IStateProps => ({
-  ...state[ReducersEnum.general],
+const mapStateToProps = (state: State) => ({
+  ...state.general,
+  authorization: state.auth.authorization,
 })
 
-const mapDispatchToProps: IDispatchProps = {
-  addAlert: GeneralActions.addAlert,
-  onActionFailure: GeneralActions.onActionFailure,
-  onStopFetching: GeneralActions.onStopFetching,
-  removeAlert: GeneralActions.removeAlert,
-  setRedirectUrl: GeneralActions.setRedirectUrl,
-  toggleModal: GeneralActions.toggleModal,
+const mapDispatchToProps = {
+  addAlert: generalActions.addAlert,
+  onActionFailure: generalActions.onActionFailure,
+  onStopFetching: generalActions.onStopFetching,
+  removeAlert: generalActions.removeAlert,
+  setRedirectUrl: generalActions.setRedirectUrl,
+  toggleModal: generalActions.toggleModal,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RootContainer)

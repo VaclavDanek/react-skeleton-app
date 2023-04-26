@@ -1,13 +1,13 @@
 /* eslint-disable no-undef */
 
-const webpack = require('webpack')
 const path = require('path')
-const loaders = require('./webpack.loaders')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin  = require('mini-css-extract-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const CopyPlugin = require('copy-webpack-plugin')
+const loaders = require('./webpack.loaders')
 
 const WEBPACK_REPORT = true
 

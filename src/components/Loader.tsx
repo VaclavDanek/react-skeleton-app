@@ -1,15 +1,16 @@
-import { default as LoaderLib } from 'react-loaders'
+import { default as Loader } from 'react-loaders'
 
 // styles
 import 'loaders.css/src/animations/ball-pulse-sync.scss'
 // import 'loaders.css/src/animations/ball-pulse.scss'
+// import 'loaders.css/src/animations/ball-clip-rotate.scss'
 // import 'loaders.css/src/animations/ball-scale-multiple.scss'
 // import 'loaders.css/src/animations/line-scale.scss'
 
 // types
-import type { LoaderType } from 'react-loaders';
+import type { LoaderType } from 'react-loaders'
 
-interface ILoaderProps {
+interface LoaderProps {
   className?: string;
   innerClassName?: string;
   active: boolean;
@@ -17,24 +18,24 @@ interface ILoaderProps {
   color?: string;
 }
 
-const Loader = (props: Readonly<ILoaderProps>): JSX.Element | null => {
+export default (props: Readonly<LoaderProps>): JSX.Element | null => {
   const { 
-    className = 'react-loader position-fixed d-flex align-items-center justify-content-center h-100 w-100', 
+    className = 'vh-center', 
     type = 'ball-pulse-sync', 
-    color = '#1B5C85',
+    color = '#0d6efd', 
     active, 
-    innerClassName,
+    innerClassName, 
   } = props
 
   return !active ? null : (
-    <div className={className}>
-      <LoaderLib
-        active
-        innerClassName={innerClassName}
-        type={type}
-      />
-    </div>
+    <Loader
+      {...{
+        className,
+        innerClassName,
+        active,
+        type,
+        color,
+      }}
+    />
   )
 }
-
-export default Loader

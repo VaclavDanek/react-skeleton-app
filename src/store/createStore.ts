@@ -1,25 +1,23 @@
+import thunk from 'redux-thunk'
+import Immutable from 'seamless-immutable'
 import { applyMiddleware, legacy_createStore } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import { composeWithDevTools } from '@redux-devtools/extension'
 import { BehaviorSubject } from 'rxjs'
 import { switchMap } from 'rxjs/operators'
-import thunk from 'redux-thunk'
-import Immutable from 'seamless-immutable'
 import createRootReducer from './reducers'
 import rootEpic from '../epics'
 import fetchingMiddleware from '../services/fetchingMiddleware'
 import errorMiddleware from '../services/errorMiddleware'
 
 // types
-import type { AnyAction, Store, Middleware } from 'redux'
+import type { AnyAction, Store as ReduxStore, Middleware } from 'redux'
 import type { Epic, StateObservable } from 'redux-observable'
 import type { Observable } from 'rxjs'
-import type { ReducersType, ReducerType } from './reducers'
+import type { AsyncReducers, State } from '../store/reducers'
 
-export interface IStore extends Store { 
-  asyncReducers: ReducersType;
-  injectReducer: (key: string, reducer: ReducerType) => void;
-  injectReducers: (reducers: ReducersType) => void;
+export interface Store extends ReduxStore { 
+  asyncReducers: Partial<AsyncReducers>;
 }
 
 const createStore = (initialState = Immutable({})): Store => {
@@ -37,39 +35,26 @@ const createStore = (initialState = Immutable({})): Store => {
   // ======================================================
   // Store Instantiation and HMR Setup
   // ======================================================
-  const store: IStore = {
+  const store: Store = {
     ...legacy_createStore(
       createRootReducer(),
       initialState,
       composeWithDevTools(applyMiddleware(...middlewares))
     ),
     asyncReducers: {},
-    injectReducer: (key: string, reducer: ReducerType): void => {
-      store.asyncReducers[key] = reducer
-      store.replaceReducer(createRootReducer(store.asyncReducers))
-    },
-    injectReducers: (reducers: ReducersType): void => {
-      store.asyncReducers = {
-        ...store.asyncReducers,
-        ...reducers,
-      }
-      store.replaceReducer(createRootReducer(store.asyncReducers))
-    },
   }
 
+  store.getState()
+
   const epic$ = new BehaviorSubject(rootEpic)
-  const hotReloadingEpic = (action$: Observable<AnyAction>, state$: StateObservable<void>, dependencies: any) => (
-    epic$.pipe(switchMap((epic: Epic<AnyAction, AnyAction, void, any>) => epic(action$, state$, dependencies)))
+  const hotReloadingEpic = (action$: Observable<AnyAction>, state$: StateObservable<State>, dependencies: any) => (
+    epic$.pipe(switchMap((epic: Epic<AnyAction, AnyAction, State, any>) => epic(action$, state$, dependencies)))
   )
-  epicMiddleware.run(hotReloadingEpic)
+  epicMiddleware.run(hotReloadingEpic as Epic<AnyAction, AnyAction>) // eslint-disable-line @typescript-eslint/no-unsafe-argument
 
-  if (process.env.NODE_ENV !== 'production' && module.hot) {
-    module.hot.accept('./reducers', () => {
-      store.replaceReducer(createRootReducer(store.asyncReducers))
-    })
-
+  if (process.env.NODE_ENV === 'development' && module.hot) {
     module.hot.accept('../epics', () => {
-      const nextRootEpic: Epic<AnyAction, AnyAction, void, any> = require('../epics').default
+      const nextRootEpic: Epic<AnyAction, AnyAction, State, any> = require('../epics').default
       epic$.next(nextRootEpic)
     })
   }

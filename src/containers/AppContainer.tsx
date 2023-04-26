@@ -1,17 +1,15 @@
 import { Component } from 'react'
 import { Provider } from 'react-redux'
-
-// containers
 import RootContainer from './RootContainer'
 
 // types
-import type { Store } from 'redux'
+import type { Store } from '../store/createStore'
 
-interface IAppContainerProps {
+interface AppContainerProps {
   store: Store;
 }
 
-export default class AppContainer extends Component<Readonly<IAppContainerProps>> {
+export default class AppContainer extends Component<Readonly<AppContainerProps>> {
   shouldComponentUpdate(): boolean {
     return false
   }

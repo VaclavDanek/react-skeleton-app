@@ -155,7 +155,7 @@ module.exports = {
                 "@typescript-eslint/no-extraneous-class": "error",
                 "@typescript-eslint/no-floating-promises": "error",
                 "@typescript-eslint/no-for-in-array": "error",
-                "@typescript-eslint/no-inferrable-types": "warn",
+                "@typescript-eslint/no-inferrable-types": "off",
                 "@typescript-eslint/no-invalid-void-type": "error",
                 "@typescript-eslint/no-misused-new": "error",
                 "@typescript-eslint/no-misused-promises": "error",
@@ -319,8 +319,7 @@ module.exports = {
                             {
                                 name: "react",
                                 importNames: ["default"],
-                                message:
-                                    "'import React' is not needed due to the new JSX transform: https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html\n\nIf you need a named export, use: 'import { Something } from \"react\"'",
+                                message: "'import React' is not needed due to the new JSX transform: https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html\n\nIf you need a named export, use: 'import { Something } from \"react\"'",
                             },
                         ],
                     },
@@ -331,7 +330,7 @@ module.exports = {
             },
         },
         {
-            files: ["*.test.js", "*.test.ts", "*.test.jsx", "*.test.tsx", "Test/**"],
+            files: ["*.test.js", "*.test.ts", "*.test.jsx", "*.test.tsx", "test/**"],
             env: {
                 "jest/globals": true,
             },
@@ -509,10 +508,10 @@ module.exports = {
         "no-restricted-imports": ["off", baseRestrictedImports],
         "no-restricted-syntax": [
             "warn",
-            {
+            /*{
                 selector: "CallExpression[callee.name='String']",
                 message: "Don't use the String function. Use .toString() instead.",
-            },
+            },*/
             {
                 selector: "CallExpression[callee.name='Number']",
                 message: "Don't use the Number function. Use parseInt or parseFloat instead.",
@@ -572,25 +571,11 @@ module.exports = {
         "import/no-duplicates": "warn",
         "import/no-namespace": "off",
         "import/order": [
-            "off",
+            "warn",
             {
-                groups: ["builtin", "external", "parent", ["sibling", "internal", "index"]],
-                pathGroups: [
-                    {
-                        pattern: "~/**",
-                        group: "parent",
-                    },
-                    {
-                        pattern: "Test/**",
-                        group: "parent",
-                    },
-                ],
-                alphabetize: {
-                    order: "asc",
-                    orderImportKind: "desc",
-                    caseInsensitive: true,
-                },
-                "newlines-between": "never",
+                groups: ["builtin", "external", ["internal", "parent", "sibling", "index"], "type", "object"],
+                "newlines-between": "ignore",
+                "warnOnUnassignedImports": false,
             },
         ],
     },

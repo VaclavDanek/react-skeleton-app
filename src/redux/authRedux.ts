@@ -1,6 +1,6 @@
-import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import moment from 'moment'
+import { createReducer, createActions } from 'reduxsauce'
 
 // types
 import type { ImmutableObject } from 'seamless-immutable'
@@ -10,18 +10,7 @@ import type { ObjectType } from '../types'
 
 /* ------------- Types and Action Creators ------------- */
 
-const { Types, Creators } = createActions({
-  loginRequest: ['username', 'password'],
-  loginRequestSuccess: ['authorization', 'expire'],
-  logout: null,
-  setAuthorization: ['authorization'],
-  setError: ['error'],
-  setExpire: ['expire'],
-  setTime: ['time'],
-})
-
-export interface IAuthTypes extends DefaultActionTypes {
-  CLEAR_ERROR: 'CLEAR_ERROR';
+interface AuthTypes extends DefaultActionTypes {
   LOGIN_REQUEST: 'LOGIN_REQUEST';
   LOGIN_REQUEST_SUCCESS: 'LOGIN_REQUEST_SUCCESS';
   LOGOUT: 'LOGOUT';
@@ -31,7 +20,7 @@ export interface IAuthTypes extends DefaultActionTypes {
   SET_TIME: 'SET_TIME';
 }
 
-export interface IAuthActions extends DefaultActionCreators {
+interface AuthActions extends DefaultActionCreators {
   loginRequest: (username: string, password: string) => AnyAction;
   loginRequestSuccess: (authorization: string, expire: number) => AnyAction;
   logout: () => AnyAction;
@@ -41,28 +30,32 @@ export interface IAuthActions extends DefaultActionCreators {
   setTime: (time: string) => AnyAction;
 }
 
-export const AuthTypes = Types as IAuthTypes
-export const AuthActions = Creators as IAuthActions
+export const { Types: authTypes, Creators: authActions }: { Types: AuthTypes; Creators: AuthActions } = (
+  createActions({
+    loginRequest: ['username', 'password'],
+    loginRequestSuccess: ['authorization', 'expire'],
+    logout: null,
+    setAuthorization: ['authorization'],
+    setError: ['error'],
+    setExpire: ['expire'],
+    setTime: ['time'],
+  })
+)
 
 /* ------------- Initial State ------------- */
 
-export type AuthState = ImmutableObject<{
-  authorization: string | null;
-  error: ObjectType | null;
-  expire: number;
-  time: string;
-}>
-
-export const INITIAL_STATE: AuthState = Immutable({
-  authorization: null,
-  error: null,
+export const INITIAL_STATE = Immutable({
+  authorization: null as string | null,
+  error: null as ImmutableObject<ObjectType> | null,
   expire: 0,
   time: '',
 })
 
+export type AuthState = typeof INITIAL_STATE
+
 /* ------------- Reducers ------------- */
 
-export const loginRequestSuccess = (state: AuthState, { authorization, expire = 0 }: 
+const loginRequestSuccess = (state: AuthState, { authorization, expire = 0 }: 
   { authorization: string; expire: number }): AuthState => (
     state.merge({
       authorization,
@@ -72,29 +65,31 @@ export const loginRequestSuccess = (state: AuthState, { authorization, expire = 
     })
   )
 
-export const logout = (state: AuthState): AuthState =>
+const logout = (state: AuthState): AuthState =>
   state.merge(INITIAL_STATE)
 
-export const setAuthorization = (state: AuthState, { authorization }: { authorization: string }): AuthState =>
+const setAuthorization = (state: AuthState, { authorization }: { authorization: string }): AuthState =>
   state.set('authorization', authorization)
 
-export const setError = (state: AuthState, { error }: { error: ObjectType | null }): AuthState =>
+const setError = (state: AuthState, { error }: { error: ObjectType | null }): AuthState =>
   state.set('error', error)
 
-export const setExpire = (state: AuthState, { expire = 0 }: { expire: number }): AuthState =>
+const setExpire = (state: AuthState, { expire = 0 }: { expire: number }): AuthState =>
   state.set('expire', expire)
 
-export const setTime = (state: AuthState, { time }: { time: string }): AuthState =>
+const setTime = (state: AuthState, { time }: { time: string }): AuthState =>
   state.set('time', time)
 
 /* ------------- Hookup Reducers To Types ------------- */
 
-export default createReducer(INITIAL_STATE, {
-  [AuthTypes.LOGIN_REQUEST]: (state: AuthState) => state,
-  [AuthTypes.LOGIN_REQUEST_SUCCESS]: loginRequestSuccess,
-  [AuthTypes.LOGOUT]: logout,
-  [AuthTypes.SET_AUTHORIZATION]: setAuthorization,
-  [AuthTypes.SET_ERROR]: setError,
-  [AuthTypes.SET_EXPIRE]: setExpire,
-  [AuthTypes.SET_TIME]: setTime,
+export const authReducer = createReducer(INITIAL_STATE, {
+  [authTypes.LOGIN_REQUEST]: (state: AuthState) => state,
+  [authTypes.LOGIN_REQUEST_SUCCESS]: loginRequestSuccess,
+  [authTypes.LOGOUT]: logout,
+  [authTypes.SET_AUTHORIZATION]: setAuthorization,
+  [authTypes.SET_ERROR]: setError,
+  [authTypes.SET_EXPIRE]: setExpire,
+  [authTypes.SET_TIME]: setTime,
 })
+
+export default authReducer

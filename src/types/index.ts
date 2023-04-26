@@ -1,28 +1,24 @@
-// types
-import type { ModalType } from '../components/Modals'
 
-export type ObjectType = Partial<Record<string, any>>
-export type ValuesType = Partial<Record<string, string | number>>
+export type ObjectType = Record<string, any>
+export type ValuesType = Record<string, string | number>
 
-export interface IScrollIntoViewOptions { 
+export interface ScrollIntoViewOptions { 
   behavior?: 'auto' | 'smooth';
   block?: 'start' | 'center' | 'end' | 'nearest';
   inline?: 'start' | 'center' | 'end' | 'nearest';
 }
 
-export interface IAlert { 
-  type: string; 
+export interface Alert { 
+  type: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'; 
   message: string; 
 }
 
-export interface ITooltip { 
+export interface Tooltip { 
   align?: string; 
   text: string; 
 }
 
-export interface ISort { 
+export interface Sort { 
   param: string; 
   desc?: boolean; 
 }
-
-export type ModalsType = Partial<Record<ModalType, boolean>>

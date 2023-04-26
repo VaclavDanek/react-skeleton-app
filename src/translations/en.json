@@ -1,0 +1,80 @@
+{
+  "alerts": {
+    "authExpire": "Automatic logout occurred",
+    "onGlobalError": "An error has occurred, if it is serious and persists, please contact support.",
+    "update": "The application has been updated"
+  },
+  "components": {
+    "dayPicker": {
+      "months": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
+      "days": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "daysShort": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat",
+        "Sun"
+      ]
+    }
+  },
+  "errors": {
+    "validation": {
+      "input": {
+        "isRequired": "This field is required",
+        "isEmail": "Invalid format",
+        "iPhone": "Invalid format",
+        "isPSC": "Invalid format",
+        "isICO": "Invalid format",
+        "isRC": "Invalid format",
+        "isAlphabetic": "This field can only contain letters",
+        "isAlphanumeric": "This field can only contain numbers and letters",
+        "isNumber": "This field can only contain numbers",
+        "hasMinNumber": "The minimum value is {validationParam}",
+        "hasMaxNumber": "The maximum value is {validationParam}",
+        "hasMinLength": "Text must have at least {validationParam} characters",
+        "hasMaxLength": "Text can have a maximum of {validationParam} characters",
+        "matches": "Invalid format"
+      }
+    },
+    "login": {
+      "401": "Invalid credentials!",
+      "500": "Login failed",
+      "503": "Login failed"
+    }
+  },
+  "general": {
+    "labels": {
+      "close": "Close",
+      "yes": "Yes",
+      "no": "No",
+      "reloadNewVersion": "Load new version",
+      "warning": "Warning"
+    },
+    "options": {
+      "fullScreen": "Do you want to view the application in full screen mode?"
+    }
+  }
+}

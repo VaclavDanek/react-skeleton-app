@@ -1,32 +1,47 @@
-import { useEffect } from 'react'
-import { useStore } from 'react-redux'
+import React from 'react'
+import { ReactReduxContext } from 'react-redux'
+import createRootReducer from '../store/reducers'
 
 // types
-import type { ComponentClass } from 'react'
-import type { IStore } from '../store/createStore'
-import type { ReducersType } from '../store/reducers'
-import type { ObjectType } from '../types'
+import type { ComponentType, ComponentClass } from 'react'
+import type { ReactReduxContextValue } from 'react-redux'
+import type { Store } from '../store/createStore'
+import type { AsyncReducers } from '../store/reducers'
 
-// eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/explicit-module-boundary-types
-const withReducers = (reducers: ReducersType) => (Component: ComponentClass<any, any>) => {
-  const WrapperComponent = (props: ObjectType): JSX.Element => {
-    const store = useStore() as IStore
+interface IReactReduxContext extends ReactReduxContextValue {
+  store: Store;
+}
 
-    useEffect(() => {
-      store.injectReducers(reducers)
-    }, [store])
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const withReducers = (reducers: Partial<AsyncReducers>) => <P extends object>(Component: ComponentType<P>): ComponentClass<P> => (
+  class extends React.Component<P> {
+    static contextType = ReactReduxContext
 
-    return (
-      <Component {...props} />
-    )
+    constructor(props: P, { store }: IReactReduxContext) {
+      super(props)
+
+      if (process.env.NODE_ENV === 'development' && module.hot) {
+        store.asyncReducers = reducers
+        store.replaceReducer(createRootReducer(reducers))
+      }
+      else {
+        let replaceReducer = false
+        for (const [key, reducer] of Object.entries(reducers)) {
+          if (!(key in store.asyncReducers)) {
+            store.asyncReducers[key] = reducer
+            replaceReducer = true
+          }
+        }
+        if (replaceReducer) {
+          store.replaceReducer(createRootReducer(store.asyncReducers))
+        }
+      }
+    }
+
+    render(): JSX.Element {
+      return <Component {...this.props} />
+    }
   }
-  return WrapperComponent
-}
-
-export const ComponentWithReducers = (props: { reducers: ReducersType; children: JSX.Element }): JSX.Element => {
-  const store = useStore() as IStore
-  store.injectReducers(props.reducers)
-  return props.children
-}
+)
 
 export default withReducers

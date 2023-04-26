@@ -1,41 +1,36 @@
 import { useLocation, useParams, useSearchParams } from 'react-router-dom'
 
 // types
-import type { ComponentClass } from 'react'
+import type { ComponentType, FunctionComponent } from 'react'
 import type { NavigateOptions, URLSearchParamsInit } from 'react-router-dom'
-import type { ObjectType } from '../types'
+import type { Location } from '@remix-run/router'
 
-export interface IRouter {
-  location: ILocation;
+interface Router {
+  location: Location;
   pathParams: Record<string, string | undefined>;
   searchParams: URLSearchParams;
-  setSearchParams: (nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), navigateOpts?: NavigateOptions) => void;
+  setSearchParams: (
+    nextInit?: URLSearchParamsInit | ((prev: URLSearchParams) => URLSearchParamsInit), 
+    navigateOpts?: NavigateOptions,
+  ) => void;
 }
 
-export interface ILocation {
-  pathname: string;
-  state: any;
-  search: string;
-  hash: string;
-  key: string;
+export interface RouterProps {
+  router: Router;
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/explicit-module-boundary-types
-const withRouter = (Component: ComponentClass<any, any>) => {
-  const ComponentWithRouterProps = (props: ObjectType): JSX.Element => {
+type WithoutRouterProps<P> = Omit<P, keyof RouterProps>
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const withRouter = <P extends RouterProps>(Component: ComponentType<P>): FunctionComponent<WithoutRouterProps<P>> => (
+  (props: WithoutRouterProps<P>): JSX.Element => {
     const location = useLocation()
     const pathParams = useParams()
     const [searchParams, setSearchParams] = useSearchParams()
 
-    const router: IRouter = { location, pathParams, searchParams, setSearchParams }
-    return (
-      <Component
-        {...props}
-        router={router}
-      />
-    )
+    const router: Router = { location, pathParams, searchParams, setSearchParams }
+    return <Component {...props as P} router={router} />
   }
-  return ComponentWithRouterProps
-}
+)
 
 export default withRouter

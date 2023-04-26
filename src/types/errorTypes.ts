@@ -1,5 +1,5 @@
 // types
-import type { AxiosError } from 'axios'
+import type { AxiosError as AxiosErrorType } from 'axios'
 
 export enum ErrorTypesEnum {
   INFO = 0,
@@ -7,17 +7,17 @@ export enum ErrorTypesEnum {
   CRITICAL = 2,
 }
 
-export interface ICustomErrorEvent {
+export interface CustomErrorEvent {
   message: string;
   stack: any;
 }
 
-export interface IError {
-  error: ErrorEvent | ICustomErrorEvent;
+export interface CustomError {
+  error: ErrorEvent | CustomErrorEvent;
   type: number;
   time: Date;
 }
 
-export interface IAxiosError extends AxiosError {
+export interface AxiosError extends AxiosErrorType {
   stack: string;
 }

@@ -4,7 +4,7 @@ import type { ChangeEvent, MouseEvent, FocusEvent } from 'react'
 // styles
 import './styles/checkbox.css'
 
-interface ICheckboxProps {
+interface CheckboxProps {
   id?: string;
   name?: string;
   className?: string;
@@ -23,7 +23,7 @@ interface ICheckboxProps {
   'data-tip'?: any;
 }
 
-const Checkbox = (props: Readonly<ICheckboxProps>): JSX.Element => {
+const Checkbox = (props: Readonly<CheckboxProps>): JSX.Element => {
   const handleOnClick = (event: MouseEvent<HTMLSpanElement>): void => {
     if (props.onClick) {
       props.onClick(event)

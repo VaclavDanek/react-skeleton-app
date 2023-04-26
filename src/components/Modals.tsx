@@ -1,29 +1,29 @@
+import I18n from 'i18n-react'
 import { Component } from 'react'
 import { Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfo } from '@fortawesome/free-solid-svg-icons'
-import I18n from 'i18n-react'
 
 // components
 import { AuthExpireAlert, UpdateAlert, FullScreenMode } from './Modal'
 
 // types
 import type { ImmutableArray } from 'seamless-immutable'
-import type { ObjectType, IAlert, ModalsType } from '../types'
+import type { ObjectType, Alert as AlertType } from '../types'
 
-export type ModalType = 'authExpireAlert' | 'updateAlert' | 'fullScreenMode'
+export type ModalKey = 'authExpireAlert' | 'updateAlert' | 'fullScreenMode'
 
-interface IModalsProps {
-  alerts?: ImmutableArray<IAlert>;
-  modals?: ModalsType;
-  modalProps?: Partial<Record<ModalType, ObjectType>>;
+interface ModalsProps {
+  alerts?: ImmutableArray<AlertType>;
+  modals?: Partial<Record<ModalKey, boolean>>;
+  modalProps?: Partial<Record<ModalKey, ObjectType>>;
   onCloseAlert?: (index: number) => void;
-  onToggleModal?: (modalKey: ModalType) => void;
+  onToggleModal?: (key: ModalKey) => void;
 }
 
-export default class Modals extends Component<Readonly<IModalsProps>> {
-  handleToggleModal = (modalKey: ModalType): void => {
-    this.props.onToggleModal?.(modalKey)
+export default class Modals extends Component<Readonly<ModalsProps>> {
+  handleToggleModal = (key: ModalKey): void => {
+    this.props.onToggleModal?.(key)
   }
 
   handleOnCloseAlert = (index: number): void => {
@@ -49,9 +49,8 @@ export default class Modals extends Component<Readonly<IModalsProps>> {
         {...modalProps.authExpireAlert}
       />
       <>
-        {alerts.map((alert: IAlert, index: number) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <Modal key={`modal-alert-${index}`} isOpen toggle={() => { this.handleOnCloseAlert(index) }}>
+        {alerts.map((alert: AlertType, index: number) => (
+          <Modal key={`modal-alert-${alert.message}`} isOpen toggle={() => { this.handleOnCloseAlert(index) }}>
             <ModalHeader>
               <FontAwesomeIcon icon={faInfo} /> {I18n.translate('general.labels.warning')}
             </ModalHeader>

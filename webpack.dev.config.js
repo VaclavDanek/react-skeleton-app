@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 
 const webpack = require('webpack')
-const loaders = require('./webpack.loaders')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const loaders = require('./webpack.loaders')
 
 const HOST = process.env.HOST || '0.0.0.0'
 const PORT = process.env.PORT || '3000'

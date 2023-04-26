@@ -1,37 +1,27 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { ReducersEnum } from '../store/reducers'
+import { compose } from 'redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faDoorOpen } from '@fortawesome/free-solid-svg-icons'
-import { isMobile } from 'react-device-detect'
-import classNames from 'classnames'
+import { withReducers, withRouter } from '../utils'
 
 // redux
-import type { UserDataState } from '../redux/userDataRedux'
-
-// utils
-import { withRouter } from '../utils'
+import { userRedux } from '../redux'
 
 // types
-import type { RefObject } from 'react'
-import type { IGlobalState } from '../store/reducers'
-import type { IScrollIntoViewOptions, ObjectType } from '../types'
-import type { IRouter } from '../utils/withRouter'
+import type { RefObject, ElementType } from 'react'
+import type { ScrollIntoViewOptions } from '../types'
+import type { RouterProps } from '../utils/withRouter'
+import type { StaticState, AsyncReducers, AsyncState } from '../store/reducers'
 
-interface IStateProps {
-  userData: ObjectType;
-}
+type HomePageProps = Readonly<ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & RouterProps & {
+  scrollToElement: (element: RefObject<any> | string, options?: ScrollIntoViewOptions) => void;
+}>
 
-interface IDispatchProps {}
+interface HomePageState {}
 
-interface IHomePageProps extends IStateProps, IDispatchProps {
-  router: IRouter;
-  scrollToElement: (element: RefObject<any> | string, options?: IScrollIntoViewOptions) => void;
-}
-interface IHomePageState {}
-
-class HomePage extends Component<Readonly<IHomePageProps>, IHomePageState> {
-  state: IHomePageState = {}
+class HomePage extends Component<HomePageProps, HomePageState> {
+  state: HomePageState = {}
 
   render(): JSX.Element {
     return (
@@ -42,12 +32,18 @@ class HomePage extends Component<Readonly<IHomePageProps>, IHomePageState> {
   }
 }
 
-const mapStateToProps = (state: IGlobalState & {
-  [ReducersEnum.userData]: UserDataState;
-}): IStateProps => ({
-  userData: state[ReducersEnum.userData].data,
+const asyncReducers = { 
+  user: userRedux.userReducer,
+} satisfies Partial<AsyncReducers>
+
+const mapStateToProps = (state: StaticState & AsyncState<typeof asyncReducers>) => ({
+  user: state.user,
 })
 
-const mapDispatchToProps: IDispatchProps = {}
+const mapDispatchToProps = {}
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HomePage))
+export default compose<ElementType>(
+  withRouter,
+  withReducers(asyncReducers),
+  connect(mapStateToProps, mapDispatchToProps),
+)(HomePage)

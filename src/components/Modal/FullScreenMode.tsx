@@ -4,14 +4,14 @@ import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import { functions as utils } from 'js-utils'
 import I18n from 'i18n-react'
 
-interface IFullScreenModeProps {
+interface FullScreenModeProps {
   className?: string;
   show: boolean;
   onClose: () => void;
   onConfirm?: () => void;
 }
 
-const FullScreenMode = (props: Readonly<IFullScreenModeProps>): JSX.Element => {
+const FullScreenMode = (props: Readonly<FullScreenModeProps>): JSX.Element => {
   const handleOnClose = (): void => {
     props.onClose()
   }
@@ -22,7 +22,7 @@ const FullScreenMode = (props: Readonly<IFullScreenModeProps>): JSX.Element => {
     }
     else {
       props.onClose()
-      utils.toggleFullScreen()
+      void utils.toggleFullScreen()
     }
   }
 

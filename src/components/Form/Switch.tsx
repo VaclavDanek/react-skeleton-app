@@ -4,7 +4,7 @@ import type { ChangeEvent, MouseEvent, FocusEvent } from 'react'
 // styles
 import './styles/switch.scss'
 
-interface ISwitchProps {
+interface SwitchProps {
   id?: string;
   name?: string;
   className?: string;
@@ -22,7 +22,7 @@ interface ISwitchProps {
   'data-tip'?: any;
 }
 
-const Switch = (props: Readonly<ISwitchProps>): JSX.Element => {
+const Switch = (props: Readonly<SwitchProps>): JSX.Element => {
   const handleOnClick = (event: MouseEvent<HTMLSpanElement>): void => {
     if (props.onClick) {
       props.onClick(event)

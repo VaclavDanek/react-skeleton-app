@@ -3,13 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import I18n from 'i18n-react'
 
-interface IUpdateAlertProps {
+interface UpdateAlertProps {
   className?: string;
   show: boolean;
   onClose: () => void;
 }
 
-const UpdateAlert = (props: Readonly<IUpdateAlertProps>): JSX.Element => {
+const UpdateAlert = (props: Readonly<UpdateAlertProps>): JSX.Element => {
   const handleOnClose = (): void => {
     props.onClose()
   }

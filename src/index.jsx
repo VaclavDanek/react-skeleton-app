@@ -1,8 +1,9 @@
+/* eslint-disable no-undef */
+
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
-
-const __DEV__ = true
 
 // ========================================================
 // Store Instantiation
@@ -17,15 +18,14 @@ const mountNode = document.getElementById('app')
 const root = ReactDOM.createRoot(mountNode)
 let render = () => {
   root.render(
-    // temporarily without the strict mode because otherwise, reactstrap package causes "findDOMNode" warning
-    // <React.StrictMode>
+    <React.StrictMode>
       <AppContainer store={store} />
-    // </React.StrictMode>
+    </React.StrictMode>
   )
 }
 
 // This code is excluded from production bundle
-if (__DEV__) {
+if (process.env.NODE_ENV === 'development') {
   // Development render functions
   const renderApp = render
   const renderError = (error) => {
@@ -40,6 +40,11 @@ if (__DEV__) {
     } catch (error) {
       renderError(error)
     }
+  }
+
+  if (module.hot) {
+    module.hot.dispose(() => { root.unmount() })
+    module.hot.accept()
   }
 }
 

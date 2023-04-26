@@ -1,45 +1,30 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports */
-
 import { combineReducers } from 'redux'
 
 // reducers
-import GeneralReduxReducer from '../redux/generalRedux'
-import AuthReduxReducer from '../redux/authRedux'
-import UserDataReduxReducer from '../redux/userDataRedux'
+import { generalRedux, authRedux } from '../redux'
 
 // types
 import type { Reducer } from 'redux'
-import type { GeneralState } from '../redux/generalRedux'
-import type { AuthState } from '../redux/authRedux'
-import type { UserDataState } from '../redux/userDataRedux'
+import type { UserState } from '../redux/userRedux'
 
-export interface IGlobalState { 
-  [ReducersEnum.general]: GeneralState;
+export interface AsyncReducers {
+  user: Reducer<UserState>;
 }
 
-export interface IState extends IGlobalState { 
-  [ReducersEnum.auth]: AuthState;
-  [ReducersEnum.userData]: UserDataState;
+const staticReducers = {
+  general: generalRedux.generalReducer,
+  auth: authRedux.authReducer,
 }
 
-export enum ReducersEnum {
-  auth = 'auth',
-  general = 'general',
-  userData = 'userData',
-}
-
-export type ReducerType = typeof GeneralReduxReducer | typeof AuthReduxReducer | typeof UserDataReduxReducer
-export type ReducersType = Partial<Record<ReducersEnum, ReducerType>>
-
-const createRootReducer = (asyncReducers: ReducersType = {}): Reducer => {
-  const staticReducers: ReducersType = {
-    [ReducersEnum.general]: GeneralReduxReducer,
-  }
-
-  return combineReducers({
+const createRootReducer = (asyncReducers: Partial<AsyncReducers> = {}): Reducer => (
+  combineReducers({
     ...staticReducers,
     ...asyncReducers,
   })
-}
+)
+
+export type StaticState = { [K in keyof typeof staticReducers]: ReturnType<typeof staticReducers[K]> }
+export type AsyncState<T extends Partial<AsyncReducers>> = { [K in keyof T]: T[K] extends Reducer<infer S> ? S : never }
+export type State = StaticState & Partial<AsyncState<AsyncReducers>>
 
 export default createRootReducer
