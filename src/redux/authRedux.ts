@@ -1,95 +1,78 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import Immutable from 'seamless-immutable'
 import moment from 'moment'
 import { createReducer, createActions } from 'reduxsauce'
 
 // types
 import type { ImmutableObject } from 'seamless-immutable'
-import type { DefaultActionTypes, DefaultActionCreators } from 'reduxsauce'
-import type { AnyAction } from 'redux'
+import type { CreatedActions, Handlers } from 'reduxsauce'
+import type { ActionCreator, AnyAction } from 'redux'
 import type { ObjectType } from '../types'
-
-/* ------------- Types and Action Creators ------------- */
-
-interface AuthTypes extends DefaultActionTypes {
-  LOGIN_REQUEST: 'LOGIN_REQUEST';
-  LOGIN_REQUEST_SUCCESS: 'LOGIN_REQUEST_SUCCESS';
-  LOGOUT: 'LOGOUT';
-  SET_AUTHORIZATION: 'SET_AUTHORIZATION';
-  SET_ERROR: 'SET_ERROR';
-  SET_EXPIRE: 'SET_EXPIRE';
-  SET_TIME: 'SET_TIME';
-}
-
-interface AuthActions extends DefaultActionCreators {
-  loginRequest: (username: string, password: string) => AnyAction;
-  loginRequestSuccess: (authorization: string, expire: number) => AnyAction;
-  logout: () => AnyAction;
-  setAuthorization: (authorization: string) => AnyAction;
-  setError: (error: ObjectType) => AnyAction;
-  setExpire: (expire: number) => AnyAction;
-  setTime: (time: string) => AnyAction;
-}
-
-export const { Types: authTypes, Creators: authActions }: { Types: AuthTypes; Creators: AuthActions } = (
-  createActions({
-    loginRequest: ['username', 'password'],
-    loginRequestSuccess: ['authorization', 'expire'],
-    logout: null,
-    setAuthorization: ['authorization'],
-    setError: ['error'],
-    setExpire: ['expire'],
-    setTime: ['time'],
-  })
-)
 
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
   authorization: null as string | null,
   error: null as ImmutableObject<ObjectType> | null,
-  expire: 0,
-  time: '',
+  issuedAt: 0 as number | string,
+  expiration: 0 as number | string,
 })
 
 export type AuthState = typeof INITIAL_STATE
 
-/* ------------- Reducers ------------- */
+/* ------------- Types and Action Creators ------------- */
 
-const loginRequestSuccess = (state: AuthState, { authorization, expire = 0 }: 
-  { authorization: string; expire: number }): AuthState => (
-    state.merge({
+type Types = { [K in keyof typeof handlers]: K }
+type Actions = { [K in keyof typeof actionCreators]: typeof actionCreators[K] }
+
+const actionCreators = {
+  loginRequest: (username: string, password: string) => ({ type: 'LOGIN_REQUEST', payload: { username, password } }),
+  loginRequestSuccess: (authorization: string, expiration?: number | string, issuedAt?: number | string) => 
+    ({ type: 'LOGIN_REQUEST_SUCCESS', payload: { authorization, expiration, issuedAt } }),
+  logout: () => ({ type: 'LOGOUT' }),
+  setAuthorization: (authorization: string) => ({ type: 'SET_AUTHORIZATION', payload: { authorization } }),
+  setError: (error: ObjectType) => ({ type: 'SET_ERROR', payload: { error } }),
+  setExpiration: (expiration: number | string) => ({ type: 'SET_EXPIRATION', payload: { expiration } }),
+  setIssuedAt: (issuedAt: number | string) => ({ type: 'SET_ISSUED_AT', payload: { issuedAt } }),
+}
+
+const createdActions: CreatedActions<Types, Actions> = createActions(actionCreators as Record<string, ActionCreator<AnyAction>>)
+export const { Types: authTypes, Creators: authActions } = createdActions
+
+//* ------------- Create Reducer ------------- */
+
+export type AuthAction<K extends keyof typeof actionCreators> = ReturnType<typeof actionCreators[K]>
+
+const handlers = {
+  LOGIN_REQUEST: (state: AuthState): AuthState => {
+    return state
+  },
+  LOGIN_REQUEST_SUCCESS: (state: AuthState, { payload }: AuthAction<'loginRequestSuccess'>): AuthState => {
+    const { authorization, expiration = 0, issuedAt = moment().format('DD.MM.YYYY HH:mm:ss') } = payload
+    return state.merge({
       authorization,
       error: INITIAL_STATE.error,
-      time: moment().format('DD.MM.YYYY HH:mm:ss'),
-      expire,
+      issuedAt,
+      expiration,
     })
-  )
+  },
+  LOGOUT: (state: AuthState): AuthState => {
+    return state.merge(INITIAL_STATE)
+  },
+  SET_AUTHORIZATION: (state: AuthState, { payload }: AuthAction<'setAuthorization'>): AuthState => {
+    return state.set('authorization', payload.authorization)
+  },
+  SET_ERROR: (state: AuthState, { payload }: AuthAction<'setError'>): AuthState => {
+    return state.set('error', payload.error)
+  },
+  SET_EXPIRATION: (state: AuthState, { payload }: AuthAction<'setExpiration'>): AuthState => {
+    return state.set('expire', payload.expiration)
+  },
+  SET_ISSUED_AT: (state: AuthState, { payload }: AuthAction<'setIssuedAt'>): AuthState => {
+    return state.set('time', payload.issuedAt)
+  },
+} satisfies Handlers<AuthState>
 
-const logout = (state: AuthState): AuthState =>
-  state.merge(INITIAL_STATE)
-
-const setAuthorization = (state: AuthState, { authorization }: { authorization: string }): AuthState =>
-  state.set('authorization', authorization)
-
-const setError = (state: AuthState, { error }: { error: ObjectType | null }): AuthState =>
-  state.set('error', error)
-
-const setExpire = (state: AuthState, { expire = 0 }: { expire: number }): AuthState =>
-  state.set('expire', expire)
-
-const setTime = (state: AuthState, { time }: { time: string }): AuthState =>
-  state.set('time', time)
-
-/* ------------- Hookup Reducers To Types ------------- */
-
-export const authReducer = createReducer(INITIAL_STATE, {
-  [authTypes.LOGIN_REQUEST]: (state: AuthState) => state,
-  [authTypes.LOGIN_REQUEST_SUCCESS]: loginRequestSuccess,
-  [authTypes.LOGOUT]: logout,
-  [authTypes.SET_AUTHORIZATION]: setAuthorization,
-  [authTypes.SET_ERROR]: setError,
-  [authTypes.SET_EXPIRE]: setExpire,
-  [authTypes.SET_TIME]: setTime,
-})
-
+export const authReducer = createReducer(INITIAL_STATE, handlers)
 export default authReducer

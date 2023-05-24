@@ -44,8 +44,6 @@ const createStore = (initialState = Immutable({})): Store => {
     asyncReducers: {},
   }
 
-  store.getState()
-
   const epic$ = new BehaviorSubject(rootEpic)
   const hotReloadingEpic = (action$: Observable<AnyAction>, state$: StateObservable<State>, dependencies: any) => (
     epic$.pipe(switchMap((epic: Epic<AnyAction, AnyAction, State, any>) => epic(action$, state$, dependencies)))

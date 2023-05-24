@@ -17,28 +17,28 @@ import type { AxiosResponse } from 'axios'
 import type { StateObservable } from 'redux-observable'
 import type { AxiosError } from '../types/errorTypes'
 import type { State } from '../store/reducers'
+import type { AuthAction, AuthState } from '../redux/authRedux'
 
-interface LoginRequestParams { username: string; password: string }
-interface LoginRequestResponse { token: string; expire: number }
+interface LoginRequestResponse extends Partial<AuthState> { token: string }
 
 export default [
   (
     action$: { 
       pipe: (
         arg0: OperatorFunction<AnyAction, AnyAction>, 
-        arg1: OperatorFunction<LoginRequestParams, AnyAction>,
+        arg1: OperatorFunction<AuthAction<'loginRequest'>, AnyAction>,
       ) => Observable<AnyAction>; 
     }, 
     state$: StateObservable<State>,
   ): Observable<AnyAction> => (
     action$.pipe(
       ofType(authTypes.LOGIN_REQUEST),
-      switchMap((action: LoginRequestParams) =>
-        from(api.login(action.username, action.password)).pipe(
+      switchMap(({ payload }) =>
+        from(api.login(payload.username, payload.password)).pipe(
           switchMap((response: AxiosResponse) => {
-            const { token, expire }: LoginRequestResponse = response.data
+            const { token, expiration, issuedAt }: LoginRequestResponse = response.data
             return [
-              authActions.loginRequestSuccess(token, expire),
+              authActions.loginRequestSuccess(`Bearer ${token}`, expiration, issuedAt),
             ]
           }),
           catchError((error: AxiosError) => {

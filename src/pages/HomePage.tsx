@@ -40,7 +40,10 @@ const mapStateToProps = (state: StaticState & AsyncState<typeof asyncReducers>) 
   user: state.user,
 })
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  setUserDataValue: userRedux.userActions.setUserDataValue,
+  setUserData: userRedux.userActions.setUserData,
+}
 
 export default compose<ElementType>(
   withRouter,
