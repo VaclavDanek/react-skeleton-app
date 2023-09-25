@@ -13,9 +13,6 @@ import { Loader, Modals } from '../components'
 // redux
 import { generalActions } from '../redux/generalRedux'
 
-// translations
-import { csLanguage, enLanguage } from '../translations'
-
 // types
 import type { RefObject } from 'react'
 import type { State } from '../store/reducers'
@@ -39,18 +36,6 @@ class RootContainer extends Component<RootContainerProps, RootContainerState> {
 
   constructor(props: RootContainerProps) {
     super(props)
-    
-    switch (navigator.language) {
-      case 'cs':
-      case 'cs-CZ':
-        I18n.setTexts(csLanguage)
-        break
-      case 'en':
-      default:
-        I18n.setTexts(enLanguage)
-        break
-    }
-
     window.addEventListener('error', this.handleOnError)
   }
 
@@ -72,7 +57,7 @@ class RootContainer extends Component<RootContainerProps, RootContainerState> {
 
   componentDidMount(): void {}
 
-  componentDidCatch?(error: Error, errorInfo: React.ErrorInfo): void {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
     const errorEvent: CustomErrorEvent = {
       message: error.message,
       stack: errorInfo.componentStack,
