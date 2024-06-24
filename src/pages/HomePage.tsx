@@ -9,14 +9,11 @@ import { withReducers, withRouter } from '../utils'
 import { userRedux } from '../redux'
 
 // types
-import type { RefObject, ElementType } from 'react'
-import type { ScrollIntoViewOptions } from '../types'
+import type { ElementType } from 'react'
 import type { RouterProps } from '../utils/withRouter'
 import type { StaticState, AsyncReducers, AsyncState } from '../store/reducers'
 
-type HomePageProps = Readonly<ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & RouterProps & {
-  scrollToElement: (element: RefObject<any> | string, options?: ScrollIntoViewOptions) => void;
-}>
+type HomePageProps = Readonly<ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & RouterProps>
 
 interface HomePageState {}
 

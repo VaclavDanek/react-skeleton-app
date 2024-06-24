@@ -2,6 +2,8 @@ import I18n from 'i18n-react'
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 import * as config from '../config'
 
 // pages
@@ -14,9 +16,7 @@ import { Loader, Modals } from '../components'
 import { generalActions } from '../redux/generalRedux'
 
 // types
-import type { RefObject } from 'react'
 import type { State } from '../store/reducers'
-import type { ScrollIntoViewOptions } from '../types'
 import type { CustomErrorEvent } from '../types/errorTypes'
 import type { ModalKey } from '../components/Modals'
 
@@ -97,36 +97,28 @@ class RootContainer extends Component<RootContainerProps, RootContainerState> {
     this.props.toggleModal(key, show)
   }
 
-  handleScrollToElement = (element: RefObject<any> | string, options: ScrollIntoViewOptions = {
-    behavior: 'smooth',
-    block: 'start',
-    inline: 'start',
-  }): void => {
-    if (typeof element === 'string') { // take ref from this class
-      if (!this[element]) {
-        return
-      }
-      element = this[element] as RefObject<any>
-    }
-    element.current.scrollIntoView(options)
-  }
-
   render(): JSX.Element {
-    const { handleOnCloseAlert, handleScrollToElement, handleToggleModal } = this
+    const { handleOnCloseAlert, handleToggleModal } = this
     const { alerts, fetching, modals, redirectUrl } = this.props
 
     return <>
-      <div>
-        <BrowserRouter basename={config.basename}>
-          <Routes>
-            <Route
-              path='/'
-              element={<HomePage scrollToElement={handleScrollToElement} />}
-            />
-          </Routes>
-          {redirectUrl && <Navigate to={redirectUrl} />}
-        </BrowserRouter>
-      </div>
+      <BrowserRouter basename={config.basename}>
+        <Routes>
+          <Route
+            path='/'
+            element={<HomePage />}
+          />
+          <Route 
+            path='*' 
+            element={
+              <h1 className='text-center text-primary mt-5'>
+                404 <FontAwesomeIcon icon={faExclamationTriangle} color='orange' />
+              </h1>
+            } 
+          />
+        </Routes>
+        {redirectUrl && <Navigate to={redirectUrl} />}
+      </BrowserRouter>
       <Modals
         alerts={alerts}
         modals={modals}
