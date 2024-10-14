@@ -1,5 +1,5 @@
-import thunk from 'redux-thunk'
 import Immutable from 'seamless-immutable'
+import { thunk } from 'redux-thunk'
 import { applyMiddleware, legacy_createStore } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import { composeWithDevTools } from '@redux-devtools/extension'
